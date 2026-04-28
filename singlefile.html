@@ -1132,6 +1132,51 @@ footer {
 .text-button:hover {
     color: var(--text-main);
 }
+.education-tooltip {
+    position: fixed;
+    width: min(320px, calc(100vw - 24px));
+    padding: 1rem 1rem 0.9rem;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--bg-card) 94%, #000);
+    border: 1px solid color-mix(in srgb, var(--primary) 24%, rgba(255, 255, 255, 0.12));
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+    color: var(--text-main);
+    z-index: 6000;
+    display: none;
+}
+.education-tooltip.open {
+    display: block;
+}
+.education-tooltip-title {
+    margin: 0 0 0.45rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.education-tooltip-body {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+.education-tooltip-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    margin-top: 0.9rem;
+}
+.education-tooltip-arrow {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: inherit;
+    border-left: inherit;
+    border-top: inherit;
+    transform: rotate(45deg);
+    display: none;
+}
+.education-tooltip.has-arrow .education-tooltip-arrow {
+    display: block;
+}
 .settings-group-title {
     margin: 0 0 1rem;
     color: var(--text-main);
@@ -1591,7 +1636,7 @@ History Net 2
 </div>
 <div class="header-actions">
 <button class="btn-icon" onclick="location.reload()" title="Refresh"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></button>
-<button class="btn-icon" onclick="openSettings()" title="Settings"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
+<button id="settingsButton" class="btn-icon" onclick="openSettings()" title="Settings"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
 </div>
 </div>
 <div class="nav-bar">
@@ -1747,6 +1792,15 @@ All Games
 <div class="modal-body" id="modalContent"></div>
 </div>
 </div>
+<div id="educationTooltip" class="education-tooltip" role="dialog" aria-live="polite">
+<div id="educationTooltipArrow" class="education-tooltip-arrow"></div>
+<h4 id="educationTooltipTitle" class="education-tooltip-title"></h4>
+<p id="educationTooltipBody" class="education-tooltip-body"></p>
+<div class="education-tooltip-actions">
+<button class="text-button" onclick="dismissEducationTooltip()">Dismiss</button>
+<button id="educationTooltipAction" class="settings-button" style="width:auto;display:none" onclick="runEducationTooltipAction()">Show Me</button>
+</div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/naughtyduk/liquidGL@main/dist/liquidgl.min.js" async onerror="console.warn('liquidGL failed to load')"></script>
 <script>
@@ -1781,7 +1835,363 @@ let state = {
     tagGames: []
 };
 const WELCOME_TOUR_KEY = 'welcomeTourSeen';
+const FEATURE_USAGE_KEY = 'featureUsage';
+const EDUCATION_TIP_STATE_KEY = 'educationTipState';
+const PANIC_KEY_KEY = 'panicKey';
+const PANIC_URL_KEY = 'panicUrl';
 let activeModalContext = null;
+let activeEducationTipId = null;
+let educationTipTimer = null;
+const EDUCATION_TIPS = [
+    {
+        id: 'search-tip',
+        featureId: 'search',
+        selector: '#searchBar',
+        title: 'Search is the fastest path',
+        body: 'If you know the game name, type it here instead of scrolling.',
+        action: null
+    },
+    {
+        id: 'favorites-tip',
+        featureId: 'favorites',
+        selector: '.star-icon',
+        title: 'Save games with the star',
+        body: 'Click a star on any game card to keep it easy to find later.',
+        action: null
+    },
+    {
+        id: 'reduce-transparency-tip',
+        featureId: 'reduce-transparency',
+        selector: '#settingsButton',
+        title: 'Need better speed?',
+        body: 'Open Settings and turn on Reduce Transparency first. It cuts a lot of blur and glass effects.',
+        action: 'settings'
+    },
+    {
+        id: 'panic-button-tip',
+        featureId: 'panic-button',
+        selector: '#settingsButton',
+        title: 'Set a panic key',
+        body: 'You can bind one key that instantly sends this tab to another website.',
+        action: 'settings'
+    },
+    {
+        id: 'custom-css-tip',
+        featureId: 'custom-css',
+        selector: '#settingsButton',
+        title: 'Test your own CSS',
+        body: 'Settings has a Custom CSS box if you want to restyle the site.',
+        action: 'settings'
+    },
+    {
+        id: 'tab-cloak-tip',
+        featureId: 'tab-cloak',
+        selector: '#settingsButton',
+        title: 'Rename the tab',
+        body: 'Tab Cloak lets you change the tab title and icon.',
+        action: 'settings'
+    },
+    {
+        id: 'fullscreen-tip',
+        featureId: 'fullscreen',
+        selector: '#zoneViewer .zone-controls button',
+        title: 'Games can go fullscreen',
+        body: 'Open a game, then use the Fullscreen button at the top.',
+        action: null
+    }
+];
+function getStoredJson(key, fallback) {
+    try {
+        const parsed = JSON.parse(localStorage.getItem(key) || 'null');
+        return parsed && typeof parsed === 'object' ? parsed : fallback;
+    } catch (_) {
+        return fallback;
+    }
+}
+function getFeatureUsage() {
+    return getStoredJson(FEATURE_USAGE_KEY, {});
+}
+function hasUsedFeature(featureId) {
+    return !!getFeatureUsage()[featureId];
+}
+function markFeatureUsed(featureId) {
+    if (!featureId) return;
+    const usage = getFeatureUsage();
+    if (usage[featureId]) return;
+    usage[featureId] = Date.now();
+    localStorage.setItem(FEATURE_USAGE_KEY, JSON.stringify(usage));
+    if (activeEducationTipId) {
+        const activeTip = EDUCATION_TIPS.find(tip => tip.id === activeEducationTipId);
+        if (activeTip && activeTip.featureId === featureId) {
+            dismissEducationTooltip();
+        }
+    }
+    scheduleEducationTips(true);
+}
+function getEducationTipState() {
+    return getStoredJson(EDUCATION_TIP_STATE_KEY, {});
+}
+function saveEducationTipState(state) {
+    localStorage.setItem(EDUCATION_TIP_STATE_KEY, JSON.stringify(state));
+}
+function getPanicSettings() {
+    return {
+        key: normalizeHotkeyToken(localStorage.getItem(PANIC_KEY_KEY) || '`'),
+        url: normalizePanicUrl(localStorage.getItem(PANIC_URL_KEY) || 'https://www.google.com')
+    };
+}
+function normalizePanicUrl(url) {
+    const raw = String(url || '').trim();
+    if (!raw) return 'https://www.google.com';
+    try {
+        return new URL(raw).toString();
+    } catch (_) {
+        try {
+            return new URL(`https://${raw}`).toString();
+        } catch (_) {
+            return 'https://www.google.com';
+        }
+    }
+}
+function normalizeHotkeyToken(value) {
+    const raw = String(value || '').trim().toLowerCase();
+    if (!raw) return '`';
+    const aliases = {
+        esc: 'escape',
+        spacebar: 'space',
+        ' ': 'space',
+        return: 'enter'
+    };
+    if (aliases[raw]) return aliases[raw];
+    return raw.length === 1 ? raw : raw.replace(/\s+/g, '');
+}
+function formatPanicKeyLabel(value) {
+    if (value === 'space') return 'Space';
+    if (value === 'escape') return 'Escape';
+    if (value === 'enter') return 'Enter';
+    return value.length === 1 ? value.toUpperCase() : value;
+}
+function getRandomEducationTipDelay() {
+    const min = 30 * 60 * 1000;
+    const max = 24 * 60 * 60 * 1000;
+    return Math.floor(min + Math.random() * (max - min));
+}
+function getEligibleEducationTips() {
+    return EDUCATION_TIPS.filter(tip => !hasUsedFeature(tip.featureId));
+}
+function getPanicSettingsMarkup(options = {}) {
+    const { compact = false } = options;
+    const panic = getPanicSettings();
+    return `
+        <div class="settings-group" style="margin-top: ${compact ? '1rem' : '1.5rem'};">
+            <h3 class="settings-group-title">Panic Button</h3>
+            <div class="setting-row">
+                <span class="setting-label">Panic Key</span>
+                <input type="text" id="panicKeyInput" maxlength="16" value="${formatPanicKeyLabel(panic.key)}">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Panic URL</span>
+                <input type="text" id="panicUrlInput" value="${panic.url}">
+            </div>
+            <p class="settings-note">Press the panic key to leave this page in the same tab.</p>
+            <div class="settings-group-actions">
+                <button class="settings-button" onclick="savePanicSettings()">Save Panic Button</button>
+            </div>
+        </div>
+    `;
+}
+function savePanicSettings() {
+    const keyInput = document.getElementById('panicKeyInput');
+    const urlInput = document.getElementById('panicUrlInput');
+    const normalizedKey = normalizeHotkeyToken(keyInput ? keyInput.value : '`');
+    const normalizedUrl = normalizePanicUrl(urlInput ? urlInput.value : 'https://www.google.com');
+    localStorage.setItem(PANIC_KEY_KEY, normalizedKey);
+    localStorage.setItem(PANIC_URL_KEY, normalizedUrl);
+    if (keyInput) keyInput.value = formatPanicKeyLabel(normalizedKey);
+    if (urlInput) urlInput.value = normalizedUrl;
+    markFeatureUsed('panic-button');
+}
+function isEditableElement(target) {
+    return !!(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable));
+}
+function triggerPanicButton() {
+    const panic = getPanicSettings();
+    markFeatureUsed('panic-button');
+    window.removeEventListener('beforeunload', beforeUnloadHandler);
+    window.location.replace(panic.url);
+}
+function handlePanicKeydown(event) {
+    if (event.defaultPrevented) return;
+    if (event.ctrlKey || event.altKey || event.metaKey) return;
+    if (isEditableElement(event.target) && event.view === window) return;
+    const panic = getPanicSettings();
+    const pressed = normalizeHotkeyToken(event.key);
+    if (pressed !== panic.key) return;
+    event.preventDefault();
+    triggerPanicButton();
+}
+function handleEducationDebugShortcut(event) {
+    if (!event.ctrlKey || !event.altKey || !event.shiftKey || String(event.key).toLowerCase() !== 't') return false;
+    event.preventDefault();
+    const tipId = prompt('Tooltip id?');
+    if (tipId) {
+        showEducationTip(tipId.trim(), true);
+    }
+    return true;
+}
+function openBehaviorDebug() {
+    const usage = getFeatureUsage();
+    const rows = EDUCATION_TIPS.map(tip => {
+        const usedAt = usage[tip.featureId];
+        return `
+            <div class="setting-row">
+                <span class="setting-label">${tip.featureId}</span>
+                <span style="color: var(--text-muted); font-size: 0.9rem;">${usedAt ? `Used (${new Date(usedAt).toLocaleString()})` : 'Not used'}</span>
+            </div>
+        `;
+    }).join('');
+    openModal('Behaviors Debug', `
+        <div>
+            <p class="settings-note" style="margin-top:0">This shows which feature flags have been marked as used for tooltip gating.</p>
+            ${rows}
+        </div>
+    `);
+}
+function handleBehaviorDebugShortcut(event) {
+    if (!event.ctrlKey || !event.altKey || !event.shiftKey || String(event.key).toLowerCase() !== 'b') return false;
+    event.preventDefault();
+    openBehaviorDebug();
+    return true;
+}
+function handleGlobalHotkeys(event) {
+    if (handleEducationDebugShortcut(event)) return;
+    if (handleBehaviorDebugShortcut(event)) return;
+    handlePanicKeydown(event);
+}
+function getEducationTipById(tipId) {
+    return EDUCATION_TIPS.find(tip => tip.id === tipId) || null;
+}
+function positionEducationTooltip(selector) {
+    const tooltip = document.getElementById('educationTooltip');
+    const arrow = document.getElementById('educationTooltipArrow');
+    const target = selector ? document.querySelector(selector) : null;
+    const viewportPadding = 12;
+    tooltip.classList.remove('has-arrow');
+    arrow.style.top = '';
+    arrow.style.left = '';
+    arrow.style.right = '';
+    arrow.style.bottom = '';
+    if (!target) {
+        tooltip.style.top = 'auto';
+        tooltip.style.left = 'auto';
+        tooltip.style.right = '12px';
+        tooltip.style.bottom = '12px';
+        return;
+    }
+    const rect = target.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) {
+        tooltip.style.top = 'auto';
+        tooltip.style.left = 'auto';
+        tooltip.style.right = '12px';
+        tooltip.style.bottom = '12px';
+        return;
+    }
+    const tooltipRect = tooltip.getBoundingClientRect();
+    let top = rect.bottom + 12;
+    let left = rect.left;
+    if (top + tooltipRect.height > window.innerHeight - viewportPadding) {
+        top = rect.top - tooltipRect.height - 12;
+        arrow.style.top = 'auto';
+        arrow.style.bottom = '-7px';
+    } else {
+        arrow.style.top = '-7px';
+        arrow.style.bottom = 'auto';
+    }
+    left = Math.min(Math.max(viewportPadding, left), window.innerWidth - tooltipRect.width - viewportPadding);
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+    tooltip.style.right = 'auto';
+    tooltip.style.bottom = 'auto';
+    arrow.style.left = `${Math.min(28, Math.max(18, rect.left + rect.width / 2 - left - 6))}px`;
+    tooltip.classList.add('has-arrow');
+}
+function runEducationTooltipAction() {
+    const tip = getEducationTipById(activeEducationTipId);
+    if (!tip || !tip.action) return;
+    if (tip.action === 'settings') {
+        dismissEducationTooltip();
+        openSettings();
+    }
+}
+function dismissEducationTooltip() {
+    const tooltip = document.getElementById('educationTooltip');
+    tooltip.classList.remove('open');
+    activeEducationTipId = null;
+}
+function showEducationTip(tipId, force = false) {
+    const tip = getEducationTipById(tipId);
+    if (!tip) return;
+    if (!force && hasUsedFeature(tip.featureId)) return;
+    const tooltip = document.getElementById('educationTooltip');
+    document.getElementById('educationTooltipTitle').textContent = tip.title;
+    document.getElementById('educationTooltipBody').textContent = tip.body;
+    const actionButton = document.getElementById('educationTooltipAction');
+    actionButton.textContent = tip.action === 'settings' ? 'Open Settings' : 'Show Me';
+    actionButton.style.display = tip.action ? 'inline-flex' : 'none';
+    activeEducationTipId = tip.id;
+    tooltip.classList.add('open');
+    positionEducationTooltip(tip.selector);
+}
+function scheduleEducationTips(resetSchedule = false) {
+    if (educationTipTimer) {
+        clearTimeout(educationTipTimer);
+        educationTipTimer = null;
+    }
+    const eligibleTips = getEligibleEducationTips();
+    if (!eligibleTips.length) {
+        saveEducationTipState({});
+        return;
+    }
+    const state = getEducationTipState();
+    let nextAt = state.nextAt;
+    if (resetSchedule || !nextAt || nextAt <= Date.now()) {
+        nextAt = Date.now() + getRandomEducationTipDelay();
+        saveEducationTipState({ nextAt });
+    }
+    const delay = Math.max(1000, nextAt - Date.now());
+    educationTipTimer = setTimeout(maybeShowScheduledEducationTip, delay);
+}
+function maybeShowScheduledEducationTip() {
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalOpen = modalOverlay && modalOverlay.classList.contains('open');
+    if (modalOpen || activeEducationTipId) {
+        saveEducationTipState({ nextAt: Date.now() + 10 * 60 * 1000 });
+        scheduleEducationTips();
+        return;
+    }
+    const eligibleTips = getEligibleEducationTips();
+    if (!eligibleTips.length) {
+        saveEducationTipState({});
+        return;
+    }
+    const tip = eligibleTips[Math.floor(Math.random() * eligibleTips.length)];
+    showEducationTip(tip.id);
+    saveEducationTipState({ nextAt: Date.now() + getRandomEducationTipDelay() });
+    scheduleEducationTips();
+}
+function repositionActiveEducationTooltip() {
+    if (!activeEducationTipId) return;
+    const tip = getEducationTipById(activeEducationTipId);
+    if (!tip) return;
+    positionEducationTooltip(tip.selector);
+}
+function attachZoneFrameHotkeys() {
+    try {
+        const frameWindow = document.getElementById('zoneFrame').contentWindow;
+        if (!frameWindow) return;
+        frameWindow.addEventListener('keydown', handleGlobalHotkeys, true);
+    } catch (_) {}
+}
 async function init() {
     
     let zonesURL = CONFIG.zones;
@@ -2059,6 +2469,7 @@ function renderNavCategories() {
     });
 }
 function filterFavorites() {
+    markFeatureUsed('favorites');
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     event.target.classList.add('active');
     const s = document.getElementById('searchView');
@@ -2082,6 +2493,7 @@ function filterFavorites() {
     `).join('');
 }
 function toggleFavorite(id) {
+    markFeatureUsed('favorites');
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     const index = favorites.indexOf(id);
     const star = event.target;
@@ -2311,6 +2723,9 @@ trendingSwiper = new Swiper('#trendingSwiper', {
     }
 }
 function handleSearch(q) {
+    if (q && q.trim()) {
+        markFeatureUsed('search');
+    }
     const s = document.getElementById('searchView');
     const m = document.getElementById('modernView');
     const c = document.getElementById('classicView');
@@ -2407,6 +2822,7 @@ async function openGame(id) {
         f.contentDocument.open();
         f.contentDocument.write(h);
         f.contentDocument.close();
+        attachZoneFrameHotkeys();
     } catch(e) {
         alert("Load failed");
         closeZone();
@@ -2435,6 +2851,7 @@ function closeZone() {
     history.pushState(null, '', url.toString());
 }
 function fullscreenZone() {
+    markFeatureUsed('fullscreen');
     const viewer = document.getElementById('zoneViewer');
     if (viewer.requestFullscreen) {
         viewer.requestFullscreen().catch(() => {});
@@ -2641,6 +3058,7 @@ function syncModalThemeControls() {
     if (themeSelect) themeSelect.value = currentThemePreset;
 }
 function applySimpleCloak() {
+    markFeatureUsed('tab-cloak');
     const titleInput = document.getElementById('simpleCloakTitleInput');
     const faviconInput = document.getElementById('simpleCloakFaviconInput');
     const title = titleInput ? titleInput.value.trim() : '';
@@ -2685,6 +3103,7 @@ function getSpeedSettingsMarkup(options = {}) {
     `;
 }
 function openSettings() {
+    markFeatureUsed('settings');
     const stats = JSON.parse(localStorage.getItem('userStats') || '{"opens": {}, "totalTime": 0}');
     const totalOpens = Object.values(stats.opens).reduce((a, b) => a + b, 0);
     const mostPlayedId = Object.keys(stats.opens).reduce((a, b) => stats.opens[a] > stats.opens[b] ? a : b, Object.keys(stats.opens)[0]);
@@ -2697,6 +3116,7 @@ function openSettings() {
             <span class="setting-label">Tab Cloak</span>
             <button class="settings-button" onclick="tabCloak()">Configure</button>
         </div>
+        ${getPanicSettingsMarkup({ compact: false })}
         <div style="margin-top: 1.5rem;">
             <h3 class="settings-group-title">Additional Settings</h3>
             ${getSpeedSettingsMarkup({ includePerformanceMode: true, compact: true, highlighted: true })}
@@ -2969,6 +3389,7 @@ function resetCustomColors() {
 }
 
 function applyCustomCSS() {
+    markFeatureUsed('custom-css');
     const css = document.getElementById('customCSS').value;
     localStorage.setItem('customCSS', css);
     
@@ -2982,6 +3403,7 @@ function applyCustomCSS() {
 }
 
 function tabCloak() {
+    markFeatureUsed('tab-cloak');
     openModal("Tab Cloak", `
         <p class="settings-note" style="margin-top:0">Change the tab title and icon.</p>
         ${getSimpleCloakMarkup({ compact: false, showHeading: false })}
@@ -3522,6 +3944,7 @@ function toggleReduceTransparency(btn) {
     }
     btn.classList.toggle('active');
     applyTransparencyMode();
+    markFeatureUsed('reduce-transparency');
 }
 function beforeUnloadHandler(e) {
     e.preventDefault();
@@ -3596,6 +4019,7 @@ function checkAutoCloak() {
 checkAutoCloak();
 applyThemeConfig();
 applyTransparencyMode();
+scheduleEducationTips();
 const customCSS = localStorage.getItem('customCSS');
 if (customCSS) {
     const styleEl = document.createElement('style');
@@ -3609,6 +4033,9 @@ if (localStorage.getItem('closePreventionEnabled') !== 'false') {
 if (localStorage.getItem('performanceMode') !== 'false') {
     document.body.classList.add('performance-mode');
 }
+document.addEventListener('keydown', handleGlobalHotkeys, true);
+window.addEventListener('resize', repositionActiveEducationTooltip);
+document.addEventListener('scroll', repositionActiveEducationTooltip, true);
 const savedGameSize = localStorage.getItem('gameSize');
 if (savedGameSize) {
     setGameSize(savedGameSize);
