@@ -17,6 +17,9 @@
     <meta name="twitter:url" content="https://sites.google.com/students.srvusd.net/history-net-2/">
     <meta name="twitter:title" content="History Net 2">
     <meta name="twitter:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on History Net 2. Fast, free, no downloads-perfect for school or home.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
 :root {
@@ -26,6 +29,7 @@
     --accent: #8b5cf6;
     --bg-darkest: #020617;
     --bg-dark: #0f172a;
+    --bg-main: #0f172a;
     --bg-card: #1e293b;
     --bg-card-hover: #334155;
     --text-main: #f8fafc;
@@ -36,12 +40,45 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-neon: 0 0 20px rgba(252, 38, 81, 0.3);
-    --font-main: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-main: 'Inter', Arial, Helvetica, sans-serif;
     --radius-sm: 6px;
     --radius-md: 12px;
     --radius-lg: 16px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --gradient-primary: linear-gradient(135deg, #fc2651 0%, #e91e47 100%);
+    --glass-bg: rgba(255, 255, 255, 0.12);
+    --glass-bg-strong: rgba(255, 255, 255, 0.18);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-blur: blur(18px);
+    --glass-blur-strong: blur(28px);
+    --bg-accent-a: rgba(252, 38, 81, 0.22);
+    --bg-accent-b: rgba(139, 92, 246, 0.18);
+    --topbar-gradient: linear-gradient(135deg, rgba(252, 38, 81, 0.12), rgba(15, 23, 42, 0.92));
+    --topbar-border: rgba(255, 255, 255, 0.08);
+    --nav-pill-bg: rgba(255, 255, 255, 0.1);
+    --nav-pill-bg-active: rgba(255, 255, 255, 0.18);
+    --card-glow-strong: rgba(252, 38, 81, 0.58);
+    --card-glow-soft: rgba(252, 38, 81, 0.36);
+    --zone-header-gradient: linear-gradient(135deg, rgba(252, 38, 81, 0.34) 0%, rgba(15, 23, 42, 0.9) 100%);
+    --zone-surface-bg: color-mix(in srgb, rgba(255, 255, 255, 0.1) 55%, transparent);
+    --zone-surface-border: color-mix(in srgb, rgba(255, 255, 255, 0.28) 70%, transparent);
+    --zone-title-gradient: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    --hero-title-gradient: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    --tag-bg: rgba(255, 255, 255, 0.1);
+    --tag-border: rgba(255, 255, 255, 0.1);
+    --input-surface-bg: color-mix(in srgb, rgba(255,255,255,0.08) 70%, transparent);
+    --input-surface-border: color-mix(in srgb, rgba(255,255,255,0.16) 70%, transparent);
+    --zone-overlay-bg: color-mix(in srgb, rgba(15, 23, 42, 0.78) 80%, transparent);
+    --zone-overlay-border: rgba(255, 255, 255, 0.08);
+    --modal-overlay-bg: rgba(5, 10, 20, 0.64);
+    --modal-panel-bg: rgba(15, 23, 42, 0.8);
+    --modal-panel-border: rgba(255, 255, 255, 0.16);
+    --modal-header-border: rgba(255, 255, 255, 0.12);
+    --modal-row-border: rgba(255, 255, 255, 0.1);
+    --modal-close-bg: rgba(255, 255, 255, 0.08);
+    --modal-close-bg-hover: rgba(255, 255, 255, 0.16);
+    --modal-close-border: rgba(255, 255, 255, 0.2);
+    --modal-shadow: 0 22px 45px rgba(0, 0, 0, 0.4);
 }
 .classic-theme {
     --bg-darkest: #0a0a0a;
@@ -65,7 +102,11 @@
     scrollbar-color: var(--bg-card-hover) var(--bg-darkest);
 }
 body {
-    background-color: var(--bg-dark);
+    background-color: var(--bg-main);
+    background-image: radial-gradient(circle at top left, var(--bg-accent-a), transparent 28%),
+                      radial-gradient(circle at bottom right, var(--bg-accent-b), transparent 26%),
+                      linear-gradient(180deg, rgba(2, 6, 23, 0.94), rgba(15, 23, 42, 0.97));
+    background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font-main);
     margin: 0;
@@ -89,12 +130,14 @@ body {
     background: var(--text-dim);
 }
 header {
-    background: var(--gradient-primary);
+    background: rgba(15, 23, 42, 0.68);
+    background-image: var(--topbar-gradient);
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: var(--shadow-lg);
     padding-bottom: 0;
+    backdrop-filter: var(--glass-blur-strong);
 }
 .header-upper {
     max-width: 1400px;
@@ -124,14 +167,15 @@ header {
     width: 100%;
     padding: 0.75rem 1rem;
     padding-left: 2.75rem;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
     color: #fff;
     font-family: inherit;
     font-size: 0.95rem;
     transition: var(--transition);
     outline: none;
+    backdrop-filter: var(--glass-blur);
 }
 #searchBar::placeholder {
     color: rgba(255, 255, 255, 0.7);
@@ -163,12 +207,13 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
     color: #fff;
     cursor: pointer;
     transition: var(--transition);
+    backdrop-filter: var(--glass-blur);
 }
 .btn-icon:hover {
     background: #fff;
@@ -176,16 +221,15 @@ header {
     transform: translateY(-2px);
 }
 .nav-bar {
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    backdrop-filter: none;
 }
 .nav-content {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 1.5rem;
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
     overflow-x: auto;
     scrollbar-width: none;
 }
@@ -193,32 +237,32 @@ header {
     display: none;
 }
 .nav-link {
-    padding: 1rem 0;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 600;
+    padding: 0.85rem 1rem;
+    color: rgba(255, 255, 255, 0.88);
+    font-weight: 700;
     font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     cursor: pointer;
-    position: relative;
     white-space: nowrap;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--nav-pill-bg);
+    backdrop-filter: blur(14px);
     transition: var(--transition);
 }
 .nav-link:hover {
+    background: var(--glass-bg-strong);
     color: #fff;
+    transform: translateY(-1px);
 }
 .nav-link.active {
     color: #fff;
+    background: var(--nav-pill-bg-active);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: #fff;
-    border-radius: 3px 3px 0 0;
+    display: none;
 }
 main {
     flex: 1;
@@ -233,14 +277,22 @@ main {
     justify-content: space-between;
     margin-bottom: 1.5rem;
     margin-top: 3rem;
+    gap: 1rem;
 }
 .section-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--text-main);
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    letter-spacing: -0.02em;
+}
+.section-title.toggleable {
+    cursor: pointer;
+}
+.section-title.toggleable:hover {
+    color: #fff;
 }
 .section-title::before {
     content: '';
@@ -252,8 +304,8 @@ main {
 }
 #sortOptions {
     padding: 0.75rem 1rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: var(--input-surface-bg);
+    border: 1px solid var(--input-surface-border);
     border-radius: var(--radius-md);
     color: var(--text-main);
     font-family: inherit;
@@ -278,6 +330,7 @@ main {
     margin-bottom: 3rem;
     box-shadow: var(--shadow-lg);
     position: relative;
+    backdrop-filter: blur(12px);
 }
 .swiper.featured-slider {
     overflow: visible;
@@ -358,7 +411,7 @@ main {
     font-size: 2.5rem;
     font-weight: 800;
     line-height: 1.1;
-    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    background: var(--hero-title-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -369,8 +422,8 @@ main {
 }
 .tag-badge {
     padding: 0.25rem 0.75rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: 600;
@@ -387,31 +440,52 @@ main {
     background: var(--primary);
     color: #fff;
     font-weight: 700;
-    border-radius: var(--radius-md);
+    border-radius: 999px;
     transition: var(--transition);
     border: none;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     align-self: flex-start;
-    box-shadow: 0 4px 15px rgba(252, 38, 81, 0.4);
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--primary) 68%, transparent);
 }
 .hero-btn:hover {
     background: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(252, 38, 81, 0.5);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--primary) 82%, transparent);
+}
+.hero-scroll-button {
+    background: var(--gradient-primary);
+    border: none;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 999px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-neon);
+    transition: var(--transition);
+}
+.hero-scroll-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(252, 38, 81, 0.35);
 }
 .game-card {
-    background: var(--bg-card);
+    background: color-mix(in srgb, var(--bg-card) 72%, transparent);
     border-radius: var(--radius-md);
     position: relative;
     transition: var(--transition);
-    border: 1px solid var(--border);
+    border: 1px solid color-mix(in srgb, var(--border) 75%, rgba(255, 255, 255, 0.28));
     cursor: pointer;
     display: flex;
     flex-direction: column;
     opacity: 0;
     animation: fadeInCard 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
 }
 @keyframes fadeInCard {
     from {
@@ -428,8 +502,8 @@ main {
     box-shadow: var(--shadow-neon);
     border-color: var(--primary);
     z-index: 10;
-    filter: drop-shadow(0 0 15px rgba(252, 38, 81, 0.6))
-            drop-shadow(0 0 25px rgba(252, 38, 81, 0.4));
+    filter: drop-shadow(0 0 15px var(--card-glow-strong))
+            drop-shadow(0 0 25px var(--card-glow-soft));
 }
 .card-thumb {
     width: 100%;
@@ -567,11 +641,14 @@ footer {
 #zoneViewer {
     position: fixed;
     inset: 0;
-    background: var(--bg);
+    background: var(--zone-overlay-bg);
+    backdrop-filter: var(--glass-blur-strong);
+    border: 1px solid var(--zone-overlay-border);
     z-index: 5000;
     display: none;
     flex-direction: column;
     animation: slideInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
 }
 @keyframes slideInUp {
     from {
@@ -597,67 +674,189 @@ footer {
     }
 }
 .zone-header {
-    background: var(--gradient-primary);
+    background: var(--zone-header-gradient);
+    backdrop-filter: var(--glass-blur-strong);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
     width: 100%;
     position: relative;
     z-index: 5001;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+@keyframes zoneHeaderReveal {
+    from {
+        transform: translateY(calc(-100% - 16px)) scale(0.985);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+@keyframes zoneHeaderHide {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(calc(-100% - 12px)) scale(0.99);
+        opacity: 0;
+    }
+}
+#zoneViewer.is-fullscreen-zone .zone-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(calc(-100% - 12px));
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
+}
+#zoneViewer.is-fullscreen-zone.show-zone-header .zone-header {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    animation: zoneHeaderReveal 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#zoneViewer.is-fullscreen-zone.hide-zone-header .zone-header {
+    animation: zoneHeaderHide 0.24s ease forwards;
+}
+#zoneHeaderHotspot {
+    display: none;
+}
+#zoneViewer.is-fullscreen-zone #zoneHeaderHotspot {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 42px;
+    z-index: 5000;
+    background: transparent;
 }
 .zone-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     flex: 1;
     min-width: 0;
 }
+.zone-title-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
 #zoneName {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    margin: 0 0 0.25rem;
-    line-height: 1.3;
+    margin: 0;
+    line-height: 1.2;
+    background: var(--zone-title-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 #zoneId {
     display: none;
 }
 #zoneAuthor {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     font-weight: 500;
+    opacity: 0.8;
 }
 #zoneAuthor:hover {
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: underline;
+    opacity: 1;
+}
+.info-button {
+    background: var(--zone-surface-bg);
+    border: 1px solid var(--zone-surface-border);
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: var(--glass-blur);
+    color: rgba(255, 255, 255, 0.8);
+}
+.info-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+    color: white;
+}
+.info-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
 }
 .zone-controls {
     display: flex;
-    gap: 0.75rem;
+    gap: 0.5rem;
+    align-items: center;
 }
 .zone-controls button {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: var(--zone-surface-bg);
+    border: 1px solid var(--zone-surface-border);
     color: white;
-    padding: 0.625rem 1rem;
-    border-radius: var(--radius-md);
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(20px);
+    backdrop-filter: var(--glass-blur);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.zone-controls button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+.zone-controls button:hover::before {
+    left: 100%;
 }
 .zone-controls button:hover {
     background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    color: white;
 }
-.info-button {
-    background: none;
-    border: none;
+.zone-controls button:active {
+    transform: translateY(0);
+    transition: transform 0.1s;
+}
+.zone-controls button svg {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0.9;
+}
+.zone-title .info-button {
     cursor: pointer;
     padding: 0;
     margin-left: 10px;
@@ -691,8 +890,7 @@ footer {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px) saturate(1.25);
     z-index: 6000;
     display: none;
     align-items: center;
@@ -704,12 +902,13 @@ footer {
     opacity: 1;
 }
 .modal {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: var(--modal-panel-bg);
+    backdrop-filter: blur(36px) saturate(1.18);
+    border: 1px solid var(--modal-panel-border);
     border-radius: var(--radius-lg);
     width: 100%;
     max-width: 500px;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--modal-shadow);
     transform: scale(0.95);
     transition: transform 0.3s ease;
 }
@@ -718,7 +917,7 @@ footer {
 }
 .modal-header {
     padding: 1.5rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--modal-header-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -729,12 +928,24 @@ footer {
     color: var(--text-main);
 }
 .modal-close {
-    background: transparent;
-    border: none;
+    background: var(--modal-close-bg);
+    border: 1px solid var(--modal-close-border);
+    border-radius: 999px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: var(--text-muted);
     font-size: 1.5rem;
     cursor: pointer;
     line-height: 1;
+    transition: var(--transition);
+}
+.modal-close:hover {
+    background: var(--modal-close-bg-hover);
+    color: var(--text-main);
+    transform: scale(1.04);
 }
 .modal-body {
     padding: 1.5rem;
@@ -743,12 +954,32 @@ footer {
     color: var(--text-muted);
     line-height: 1.6;
 }
+.modal .settings-button,
+.modal select,
+.modal input[type="text"],
+.modal input[type="color"],
+.modal textarea {
+    backdrop-filter: var(--glass-blur);
+}
+.modal select,
+.modal input[type="text"],
+.modal textarea {
+    background: var(--input-surface-bg);
+    border: 1px solid var(--input-surface-border);
+    color: var(--text-main);
+    border-radius: var(--radius-sm);
+}
+.modal input[type="color"] {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    border-radius: 8px;
+}
 .setting-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--modal-row-border);
 }
 .setting-label {
     font-weight: 500;
@@ -786,7 +1017,7 @@ footer {
     background: var(--primary);
     color: #fff;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: 999px;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
@@ -800,6 +1031,127 @@ footer {
 }
 .settings-button:active {
     transform: translateY(0);
+}
+.settings-note {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+}
+.tour-progress {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+.tour-progress-dot {
+    flex: 1;
+    height: 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bg-card) 80%, rgba(255, 255, 255, 0.1));
+    overflow: hidden;
+}
+.tour-progress-dot.active {
+    background: color-mix(in srgb, var(--primary) 45%, rgba(255, 255, 255, 0.16));
+}
+.tour-progress-dot.active::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+}
+.tour-step-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    margin-bottom: 0.85rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-main);
+    background: color-mix(in srgb, var(--primary) 18%, rgba(255, 255, 255, 0.06));
+    border: 1px solid color-mix(in srgb, var(--primary) 28%, rgba(255, 255, 255, 0.08));
+}
+.tour-step-title {
+    margin: 0 0 0.75rem;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    color: var(--text-main);
+}
+.tour-step-copy {
+    margin: 0 0 1.25rem;
+    color: var(--text-muted);
+}
+.tour-list {
+    margin: 0 0 1.5rem;
+    padding-left: 1.1rem;
+    color: var(--text-muted);
+}
+.tour-list li + li {
+    margin-top: 0.5rem;
+}
+.tour-callout {
+    padding: 1rem 1.1rem;
+    margin: 0 0 1.5rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--primary) 14%, rgba(255, 255, 255, 0.04));
+    border: 1px solid color-mix(in srgb, var(--primary) 22%, rgba(255, 255, 255, 0.08));
+    color: var(--text-main);
+}
+.tour-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+.tour-actions-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex: 1;
+}
+.settings-button.secondary-button {
+    background: color-mix(in srgb, var(--bg-card) 78%, rgba(255, 255, 255, 0.08));
+    color: var(--text-main);
+    border: 1px solid color-mix(in srgb, var(--primary) 22%, rgba(255, 255, 255, 0.1));
+}
+.settings-button.secondary-button:hover {
+    background: color-mix(in srgb, var(--bg-card-hover) 84%, rgba(255, 255, 255, 0.08));
+}
+.text-button {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+.text-button:hover {
+    color: var(--text-main);
+}
+.settings-group-title {
+    margin: 0 0 1rem;
+    color: var(--text-main);
+}
+.settings-group {
+    margin-top: 1.5rem;
+}
+.settings-group-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+@media (max-width: 640px) {
+    .tour-actions,
+    .tour-actions-right,
+    .settings-group-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
 @media (max-width: 1024px) {
     .slide-image-wrapper { 
@@ -847,13 +1199,22 @@ footer {
         font-size: 1.5rem; 
     }
     .zone-header {
-        padding: 0.75rem 1rem;
+        padding: 1rem 1.5rem;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: 1rem;
     }
     .zone-title {
         width: 100%;
         margin-bottom: 0.5rem;
+    }
+    .zone-title-content {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    #zoneName {
+        margin: 0;
+        font-size: 1.25rem;
     }
     .zone-controls {
         width: 100%;
@@ -862,9 +1223,20 @@ footer {
     }
     .zone-controls button {
         flex: 1;
-        padding: 0.5rem 0.5rem;
-        font-size: 11px;
-        min-width: 0;
+        padding: 0.625rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    .zone-controls button svg {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+    .info-button {
+        width: 2rem;
+        height: 2rem;
+    }
+    .info-button svg {
+        width: 1rem;
+        height: 1rem;
     }
     #zoneName {
         font-size: 1rem;
@@ -1168,6 +1540,38 @@ body.performance-mode .btn-icon:hover {
 body.performance-mode .game-card:hover {
     transform: none !important;
 }
+body.reduce-transparency {
+    --glass-bg: color-mix(in srgb, var(--bg-card) 92%, #000);
+    --glass-bg-strong: color-mix(in srgb, var(--bg-card) 96%, #000);
+    --glass-border: color-mix(in srgb, var(--primary) 18%, rgba(255, 255, 255, 0.12));
+    --glass-blur: none;
+    --glass-blur-strong: none;
+    --nav-pill-bg: color-mix(in srgb, var(--bg-card) 94%, #000);
+    --nav-pill-bg-active: color-mix(in srgb, var(--primary) 22%, var(--bg-card));
+    --zone-surface-bg: color-mix(in srgb, var(--bg-card) 94%, #000);
+    --input-surface-bg: color-mix(in srgb, var(--bg-card) 96%, #000);
+    --zone-overlay-bg: color-mix(in srgb, var(--bg-dark) 94%, #000);
+    --modal-overlay-bg: rgba(2, 6, 23, 0.84);
+    --modal-panel-bg: color-mix(in srgb, var(--bg-card) 98%, #000);
+}
+body.reduce-transparency header,
+body.reduce-transparency .btn-icon,
+body.reduce-transparency #searchBar,
+body.reduce-transparency .nav-link,
+body.reduce-transparency .game-meta,
+body.reduce-transparency .zone-header,
+body.reduce-transparency .zone-controls button,
+body.reduce-transparency .modal-overlay,
+body.reduce-transparency .modal,
+body.reduce-transparency .modal .settings-button,
+body.reduce-transparency .modal select,
+body.reduce-transparency .modal input[type="text"],
+body.reduce-transparency .modal textarea {
+    backdrop-filter: none !important;
+}
+body.reduce-transparency #zoneHeaderHotspot {
+    background: rgba(2, 6, 23, 0.01);
+}
 
 body.classic-theme main {
     max-width: none !important
@@ -1205,7 +1609,7 @@ History Net 2
 <div class="swiper-button-prev"></div>
 </div>
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<button onclick="document.getElementById('sortOptions').scrollIntoView({behavior: 'smooth', block: 'start'})" style="background: var(--gradient-primary); border: none; color: white; padding: 1rem 2rem; border-radius: var(--radius-md); font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow-neon); transition: var(--transition);">
+<button class="hero-scroll-button" onclick="document.getElementById('sortOptions').scrollIntoView({behavior: 'smooth', block: 'start'})" aria-label="Scroll to all games">
 View All Games
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
 </button>
@@ -1219,14 +1623,14 @@ View All Games
 <div class="swiper-button-prev"></div>
 </div>
 <div class="section-header">
-<div class="section-title" onclick="toggleSection('featuredGrid', this)" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+<div class="section-title toggleable" onclick="toggleSection('featuredGrid', this)">
 Featured Games
 <svg class="collapse-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s;"><path d="m6 9 6 6 6-6"/></svg>
 </div>
 </div>
 <div class="grid-layout" id="featuredGrid"></div>
 <div class="section-header">
-<div class="section-title" onclick="toggleSection('allGamesGrid', this)" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+<div class="section-title toggleable" onclick="toggleSection('allGamesGrid', this)">
 All Games
 <svg class="collapse-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s;"><path d="m6 9 6 6 6-6"/></svg>
 </div>
@@ -1255,7 +1659,7 @@ All Games
 <div class="footer-content">
 <div class="footer-col">
 <h3>History Net 2</h3>
-<br><h6>made by pilot bell</a></h6>
+<br><h6>made by pilot bell</h6>
 </div>
 <div class="footer-col">
 <h3>Legal</h3>
@@ -1281,25 +1685,56 @@ All Games
 </div>
 </footer>
 <div id="zoneViewer">
-<div class="zone-header">
-<div class="zone-title">
-<h2 id="zoneName">zone</h2>
-<button class="info-button" onclick="showZoneInfo()" title="Zone Information">
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<circle cx="12" cy="12" r="10"></circle>
-<line x1="12" y1="16" x2="12" y2="12"></line>
-<line x1="12" y1="8" x2="12.01" y2="8"></line>
-</svg>
-</button>
-<span id="zoneId" style="display: none;"></span>
-<a id="zoneAuthor" href="#" target="_blank">by Author</a>
-</div>
-<div class="zone-controls">
-<button onclick="fullscreenZone()">Fullscreen</button>
-<button onclick="aboutBlank()">Open in New Tab</button>
-<button onclick="downloadZone()">Download</button>
-<button onclick="closeZone()">Close</button>
-</div>
+<div id="zoneHeaderHotspot" onmouseenter="handleZoneHeaderHotspotEnter()" onmouseleave="handleZoneHeaderHotspotLeave()"></div>
+<div class="zone-header" onmouseenter="setZoneHeaderVisible(true)" onmouseleave="scheduleZoneHeaderHide()">
+    <div class="zone-title">
+        <div class="zone-title-content">
+            <h2 id="zoneName">zone</h2>
+            <a id="zoneAuthor" href="#" target="_blank">by Author</a>
+        </div>
+        <button class="info-button" onclick="showZoneInfo()" title="Zone Information">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <path d="M12 17h.01"></path>
+            </svg>
+        </button>
+        <span id="zoneId" style="display: none;"></span>
+    </div>
+    <div class="zone-controls">
+        <button onclick="fullscreenZone()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h6v6"></path>
+                <path d="M9 21H3v-6"></path>
+                <path d="M21 3l-7 7"></path>
+                <path d="M3 21l7-7"></path>
+            </svg>
+            Fullscreen
+        </button>
+        <button onclick="aboutBlank()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15,3 21,3 21,9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            New Tab
+        </button>
+        <button onclick="downloadZone()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7,10 12,15 17,10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download
+        </button>
+        <button onclick="closeZone()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            Close
+        </button>
+    </div>
 </div>
 <iframe id="zoneFrame"></iframe>
 </div>
@@ -1313,6 +1748,7 @@ All Games
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/naughtyduk/liquidGL@main/dist/liquidgl.min.js" async onerror="console.warn('liquidGL failed to load')"></script>
 <script>
 const schoolList = ["deledao", "goguardian", "lightspeed", "linewize", "securly", ".edu/"];
 function isBlockedDomain(url) {
@@ -1344,6 +1780,8 @@ let state = {
     categories: [],
     tagGames: []
 };
+const WELCOME_TOUR_KEY = 'welcomeTourSeen';
+let activeModalContext = null;
 async function init() {
     
     let zonesURL = CONFIG.zones;
@@ -1398,6 +1836,7 @@ async function init() {
         updateTrendingWeek();
         updateTagSections();
         updatePlayCounts();
+        maybeOpenWelcomeTour();
     } catch (e) {
         console.error("Init failed", e);
         console.error("Error details:", e.message, e.stack);
@@ -1949,11 +2388,6 @@ async function openGame(id) {
     header.style.display = 'none';
     document.querySelector('main').style.display = 'none';
     document.querySelector('footer').style.display = 'none';
-    const zoneHeader = document.querySelector('.zone-header');
-    if (zoneHeader) {
-        zoneHeader.style.background = 'linear-gradient(135deg, #fc2651 0%, #e91e47 100%)';
-    }
-    
     const url = new URL(window.location);
     url.searchParams.set('id', id);
     history.pushState(null, '', url.toString());
@@ -1986,6 +2420,11 @@ function closeZone() {
         stats.timeStart = null;
         localStorage.setItem('userStats', JSON.stringify(stats));
     }
+    const zoneViewer = document.getElementById('zoneViewer');
+    if (document.fullscreenElement === zoneViewer && document.exitFullscreen) {
+        document.exitFullscreen();
+    }
+    zoneViewer.classList.remove('is-fullscreen-zone', 'show-zone-header', 'hide-zone-header');
     document.getElementById('zoneViewer').style.display = 'none';
     document.getElementById('zoneFrame').src = '';
     document.querySelector('header').style.display = 'block';
@@ -1996,9 +2435,63 @@ function closeZone() {
     history.pushState(null, '', url.toString());
 }
 function fullscreenZone() {
-    const f = document.getElementById('zoneFrame');
-    if (f.requestFullscreen) f.requestFullscreen();
+    const viewer = document.getElementById('zoneViewer');
+    if (viewer.requestFullscreen) {
+        viewer.requestFullscreen().catch(() => {});
+    }
 }
+let zoneHeaderHideTimer = null;
+function scheduleZoneHeaderHide(delay = 220) {
+    const viewer = document.getElementById('zoneViewer');
+    if (!viewer || document.fullscreenElement !== viewer) return;
+    if (zoneHeaderHideTimer) {
+        clearTimeout(zoneHeaderHideTimer);
+    }
+    zoneHeaderHideTimer = setTimeout(() => setZoneHeaderVisible(false), delay);
+}
+function setZoneHeaderVisible(visible) {
+    const viewer = document.getElementById('zoneViewer');
+    if (!viewer || document.fullscreenElement !== viewer) return;
+    if (zoneHeaderHideTimer) {
+        clearTimeout(zoneHeaderHideTimer);
+        zoneHeaderHideTimer = null;
+    }
+    if (visible) {
+        viewer.classList.remove('hide-zone-header');
+        viewer.classList.add('show-zone-header');
+        return;
+    }
+    viewer.classList.remove('show-zone-header');
+    viewer.classList.add('hide-zone-header');
+}
+function handleZoneHeaderHotspotEnter() {
+    const viewer = document.getElementById('zoneViewer');
+    if (!viewer || document.fullscreenElement !== viewer) return;
+    setZoneHeaderVisible(true);
+}
+function handleZoneHeaderHotspotLeave() {
+    const viewer = document.getElementById('zoneViewer');
+    if (!viewer || document.fullscreenElement !== viewer) return;
+    scheduleZoneHeaderHide(260);
+}
+function handleZoneFullscreenChange() {
+    const viewer = document.getElementById('zoneViewer');
+    if (!viewer) return;
+    const isZoneFullscreen = document.fullscreenElement === viewer;
+    viewer.classList.toggle('is-fullscreen-zone', isZoneFullscreen);
+    if (isZoneFullscreen) {
+        viewer.classList.remove('hide-zone-header');
+        viewer.classList.add('show-zone-header');
+        setTimeout(() => {
+            if (document.fullscreenElement === viewer) {
+                scheduleZoneHeaderHide(0);
+            }
+        }, 1400);
+    } else {
+        viewer.classList.remove('show-zone-header', 'hide-zone-header');
+    }
+}
+document.addEventListener('fullscreenchange', handleZoneFullscreenChange);
 function aboutBlank() {
     const id = document.getElementById('zoneId').textContent;
     const g = state.games.find(x => x.id == id);
@@ -2032,6 +2525,15 @@ function downloadZone() {
     });
 }
 function openModal(t, c) {
+    activeModalContext = null;
+    document.getElementById('modalTitle').textContent = t;
+    document.getElementById('modalContent').innerHTML = c;
+    const o = document.getElementById('modalOverlay');
+    o.style.display = 'flex';
+    setTimeout(() => o.classList.add('open'), 10);
+}
+function openModalWithContext(t, c, context) {
+    activeModalContext = context || null;
     document.getElementById('modalTitle').textContent = t;
     document.getElementById('modalContent').innerHTML = c;
     const o = document.getElementById('modalOverlay');
@@ -2039,124 +2541,165 @@ function openModal(t, c) {
     setTimeout(() => o.classList.add('open'), 10);
 }
 function closeModal() {
+    const context = activeModalContext;
+    activeModalContext = null;
+    if (context && typeof context.onClose === 'function') {
+        context.onClose();
+    }
     const o = document.getElementById('modalOverlay');
     o.classList.remove('open');
     setTimeout(() => o.style.display = 'none', 300);
 }
-function openSettings() {
+function getThemeSettingsMarkup(options = {}) {
+    const {
+        includeClassicToggle = true,
+        includeCustomCss = true,
+        compact = false
+    } = options;
     const isClassic = localStorage.getItem('theme') === 'classic';
+    const themeConfig = getThemeConfig();
+    const spacing = compact ? '1rem' : '1.5rem';
+    return `
+        ${includeClassicToggle ? `
+        <div class="setting-row">
+            <span class="setting-label">Classic Theme</span>
+            <div class="toggle-switch ${isClassic ? 'active' : ''}" onclick="toggleTheme(!this.classList.contains('active'), this)"></div>
+        </div>` : ''}
+        <div class="settings-group" style="margin-top: ${includeClassicToggle ? spacing : '0'};">
+            <h3 class="settings-group-title">Theme Customizer</h3>
+            <div class="setting-row">
+                <span class="setting-label">Preset Themes</span>
+                <select id="themePreset" class="settings-button" style="width: auto;" onchange="setThemePreset(this.value)">
+                    <option value="default">Default</option>
+                    <option value="blue">Ocean Blue</option>
+                    <option value="purple">Purple Dream</option>
+                    <option value="green">Forest Green</option>
+                    <option value="orange">Sunset Orange</option>
+                    <option value="dark">Dark Mode</option>
+                    <option value="crimson">Crimson Night</option>
+                    <option value="cyan">Cyber Cyan</option>
+                    <option value="gold">Royal Gold</option>
+                    <option value="rose">Rose Quartz</option>
+                    <option value="midnight">Midnight Neon</option>
+                    <option value="arctic">Arctic Ice</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Primary Color</span>
+                <input type="color" id="primaryColor" value="${themeConfig.primary}" onchange="setThemeColor('primary', this.value)">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Background Color</span>
+                <input type="color" id="bgColor" value="${themeConfig.bg}" onchange="setThemeColor('bg', this.value)">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Card Background</span>
+                <input type="color" id="cardBgColor" value="${themeConfig.cardBg}" onchange="setThemeColor('cardBg', this.value)">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Text Color</span>
+                <input type="color" id="textColor" value="${themeConfig.text}" onchange="setThemeColor('text', this.value)">
+            </div>
+            <div class="setting-row">
+                <button class="settings-button" onclick="resetThemeConfig()">Reset Colors</button>
+            </div>
+            ${includeCustomCss ? `
+            <div style="margin-top: 1rem;">
+                <span class="setting-label" style="display:block;margin-bottom:0.5rem">Custom CSS (Advanced)</span>
+                <textarea id="customCSS" placeholder="Enter custom CSS..." style="width:100%;height:100px;padding:0.5rem;border-radius:var(--radius-sm);font-family:monospace;font-size:12px;resize:vertical">${localStorage.getItem('customCSS') || ''}</textarea>
+                <button class="settings-button" style="margin-top:0.5rem" onclick="applyCustomCSS()">Apply Custom CSS</button>
+            </div>` : '<p class="settings-note">Theme changes save immediately.</p>'}
+        </div>
+    `;
+}
+function getSimpleCloakMarkup(options = {}) {
+    const { compact = false, showHeading = true } = options;
+    const title = localStorage.getItem('customCloakTitle') || 'Google Classroom';
+    const favicon = localStorage.getItem('customCloakFavicon') || 'https://ssl.gstatic.com/classroom/favicon.png';
+    return `
+        <div class="settings-group" style="margin-top: ${compact ? '1rem' : '1.5rem'};">
+            ${showHeading ? '<h3 class="settings-group-title">Tab Cloak</h3>' : ''}
+            <div class="setting-row">
+                <span class="setting-label">Tab Title</span>
+                <input type="text" id="simpleCloakTitleInput" value="${title}">
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Tab Icon URL</span>
+                <input type="text" id="simpleCloakFaviconInput" value="${favicon}">
+            </div>
+            <p class="settings-note">This only changes the tab name and icon.</p>
+            <div class="settings-group-actions">
+                <button class="settings-button" onclick="applySimpleCloak()">Apply</button>
+            </div>
+        </div>
+    `;
+}
+function syncModalThemeControls() {
+    const currentThemePreset = getThemeConfig().preset || 'default';
+    const themeSelect = document.getElementById('themePreset');
+    if (themeSelect) themeSelect.value = currentThemePreset;
+}
+function applySimpleCloak() {
+    const titleInput = document.getElementById('simpleCloakTitleInput');
+    const faviconInput = document.getElementById('simpleCloakFaviconInput');
+    const title = titleInput ? titleInput.value.trim() : '';
+    const faviconUrl = faviconInput ? faviconInput.value.trim() : '';
+    localStorage.setItem('customCloakTitle', title || 'Google Classroom');
+    localStorage.setItem('customCloakFavicon', faviconUrl || 'https://ssl.gstatic.com/classroom/favicon.png');
+    document.title = title || 'Google Classroom';
+    let icon = document.querySelector("link[rel~='icon']");
+    if (!icon) {
+        icon = document.createElement('link');
+        icon.rel = 'icon';
+        document.head.appendChild(icon);
+    }
+    icon.href = faviconUrl || 'https://ssl.gstatic.com/classroom/favicon.png';
+    let shortcut = document.querySelector("link[rel='shortcut icon']");
+    if (!shortcut) {
+        shortcut = document.createElement('link');
+        shortcut.rel = 'shortcut icon';
+        document.head.appendChild(shortcut);
+    }
+    shortcut.href = faviconUrl || 'https://ssl.gstatic.com/classroom/favicon.png';
+}
+function initSharedSettingsControls() {
+    syncThemeControls();
+    syncModalThemeControls();
+}
+function getSpeedSettingsMarkup(options = {}) {
+    const { includePerformanceMode = true, compact = false, highlighted = false } = options;
+    return `
+        <div class="settings-group" style="margin-top: ${compact ? '1rem' : '1.5rem'};">
+            ${highlighted ? '<div class="tour-callout"><strong>Want games to feel smoother?</strong> Turn on Reduce Transparency first. It removes a lot of the blur and glass effects.</div>' : ''}
+            <div class="setting-row">
+                <span class="setting-label">Reduce Transparency</span>
+                <div class="toggle-switch ${localStorage.getItem('reduceTransparency') === 'true' ? 'active' : ''}" onclick="toggleReduceTransparency(this)"></div>
+            </div>
+            ${includePerformanceMode ? `
+            <div class="setting-row">
+                <span class="setting-label">Performance Mode</span>
+                <div class="toggle-switch ${localStorage.getItem('performanceMode') !== 'false' ? 'active' : ''}" onclick="togglePerformanceMode(this)"></div>
+            </div>` : ''}
+        </div>
+    `;
+}
+function openSettings() {
     const stats = JSON.parse(localStorage.getItem('userStats') || '{"opens": {}, "totalTime": 0}');
     const totalOpens = Object.values(stats.opens).reduce((a, b) => a + b, 0);
     const mostPlayedId = Object.keys(stats.opens).reduce((a, b) => stats.opens[a] > stats.opens[b] ? a : b, Object.keys(stats.opens)[0]);
     const mostPlayed = state.games.find(g => g.id == mostPlayedId);
     const hours = Math.floor(stats.totalTime / 3600000);
     const minutes = Math.floor((stats.totalTime % 3600000) / 60000);
-    const cloakSite = localStorage.getItem('cloakSite') || 'Google Classroom';
-    const cloakMethod = localStorage.getItem('cloakMethod') || 'about:blank';
-    const autoCloak = localStorage.getItem('autoCloak') || 'none';
     openModal("Settings", `
-        <div class="setting-row">
-            <span class="setting-label">Classic Theme</span>
-            <div class="toggle-switch ${isClassic ? 'active' : ''}" onclick="toggleTheme(!this.classList.contains('active'), this)"></div>
-        </div>
-        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
-            <h3 style="margin-bottom: 1rem; color: var(--text-main);">Theme Customizer</h3>
-            <div class="setting-row">
-                <span class="setting-label">Preset Themes</span>
-                <select id="themePreset" class="settings-button" style="width: auto;" onchange="applyThemePreset(this.value)">
-                    <option value="default">Default (Pink)</option>
-                    <option value="blue">Ocean Blue</option>
-                    <option value="purple">Purple Dream</option>
-                    <option value="green">Forest Green</option>
-                    <option value="orange">Sunset Orange</option>
-                    <option value="dark">Dark Mode</option>
-                </select>
-            </div>
-            <div class="setting-row">
-                <span class="setting-label">Primary Color</span>
-                <input type="color" id="primaryColor" value="${localStorage.getItem('primaryColor') || '#fc2651'}" onchange="updateCustomColor('primaryColor', this.value)">
-            </div>
-            <div class="setting-row">
-                <span class="setting-label">Background Color</span>
-                <input type="color" id="bgColor" value="${localStorage.getItem('bgColor') || '#0f172a'}" onchange="updateCustomColor('bgColor', this.value)">
-            </div>
-            <div class="setting-row">
-                <span class="setting-label">Card Background</span>
-                <input type="color" id="cardBgColor" value="${localStorage.getItem('cardBgColor') || '#1e293b'}" onchange="updateCustomColor('cardBgColor', this.value)">
-            </div>
-            <div class="setting-row">
-                <span class="setting-label">Text Color</span>
-                <input type="color" id="textColor" value="${localStorage.getItem('textColor') || '#ffffff'}" onchange="updateCustomColor('textColor', this.value)">
-            </div>
-            <div class="setting-row">
-                <button class="settings-button" onclick="resetCustomColors()">Reset Colors</button>
-            </div>
-            <div style="margin-top: 1rem;">
-                <span class="setting-label" style="display:block;margin-bottom:0.5rem">Custom CSS (Advanced)</span>
-                <textarea id="customCSS" placeholder="Enter custom CSS..." style="width:100%;height:100px;padding:0.5rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-card);color:var(--text-main);font-family:monospace;font-size:12px;resize:vertical">${localStorage.getItem('customCSS') || ''}</textarea>
-                <button class="settings-button" style="margin-top:0.5rem" onclick="applyCustomCSS()">Apply Custom CSS</button>
-            </div>
-        </div>
+        ${getThemeSettingsMarkup({ includeClassicToggle: true, includeCustomCss: true })}
         <div class="setting-row">
             <span class="setting-label">Tab Cloak</span>
             <button class="settings-button" onclick="tabCloak()">Configure</button>
         </div>
-        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
-            <h3 style="margin-bottom: 1rem; color: var(--text-main);">Cloak Methods</h3>
-            <div class="setting-row">
-                <span class="setting-label">Cloak Site</span>
-                <select id="cloakSiteSelect" class="settings-button" style="width: auto;" onchange="localStorage.setItem('cloakSite', this.value)">
-                    <option ${cloakSite === 'Google Classroom' ? 'selected' : ''}>Google Classroom</option>
-                    <option ${cloakSite === 'Clever' ? 'selected' : ''}>Clever</option>
-                    <option ${cloakSite === 'Edpuzzle' ? 'selected' : ''}>Edpuzzle</option>
-                    <option ${cloakSite === 'IXL' ? 'selected' : ''}>IXL</option>
-                    <option ${cloakSite === 'Gmail' ? 'selected' : ''}>Gmail</option>
-                    <option ${cloakSite === 'Google Docs' ? 'selected' : ''}>Google Docs</option>
-                    <option ${cloakSite === 'Google Slides' ? 'selected' : ''}>Google Slides</option>
-                    <option ${cloakSite === 'Khan Academy' ? 'selected' : ''}>Khan Academy</option>
-                    <option ${cloakSite === 'Custom' ? 'selected' : ''}>Custom</option>
-                </select>
-            </div>
-            <div class="setting-row" id="customCloakRow" style="display: ${cloakSite === 'Custom' ? 'flex' : 'none'};">
-                <span class="setting-label">Custom Title</span>
-                <input type="text" id="customCloakTitle" placeholder="Enter custom title" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-card); color: var(--text-main);" value="${localStorage.getItem('customCloakTitle') || ''}" onchange="localStorage.setItem('customCloakTitle', this.value)">
-            </div>
-            <div class="setting-row" id="customCloakFaviconRow" style="display: ${cloakSite === 'Custom' ? 'flex' : 'none'};">
-                <span class="setting-label">Custom Favicon URL</span>
-                <input type="text" id="customCloakFavicon" placeholder="https://example.com/favicon.ico" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-card); color: var(--text-main);" value="${localStorage.getItem('customCloakFavicon') || ''}" onchange="localStorage.setItem('customCloakFavicon', this.value)">
-            </div>
-            <div class="setting-row">
-                <span class="setting-label">Cloak Method</span>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="radio" name="cloakMethod" value="about:blank" ${cloakMethod === 'about:blank' ? 'checked' : ''} onchange="localStorage.setItem('cloakMethod', this.value)">
-                        about:blank
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="radio" name="cloakMethod" value="blob:null" ${cloakMethod === 'blob:null' ? 'checked' : ''} onchange="localStorage.setItem('cloakMethod', this.value)">
-                        blob:null
-                    </label>
-                </div>
-            </div>
-            <div class="setting-row">
-                <span class="setting-label">Open in Cloak</span>
-                <button class="settings-button" onclick="openInCloak()">Open Now</button>
-            </div>
-            <div class="setting-row">
-                <span class="setting-label">Auto Cloak</span>
-                <select class="settings-button" style="width: auto;" onchange="localStorage.setItem('autoCloak', this.value)">
-                    <option value="none" ${autoCloak === 'none' ? 'selected' : ''}>Disabled</option>
-                    <option value="about:blank" ${autoCloak === 'about:blank' ? 'selected' : ''}>about:blank</option>
-                    <option value="blob:null" ${autoCloak === 'blob:null' ? 'selected' : ''}>blob:null</option>
-                </select>
-            </div>
-        </div>
-        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
-            <h3 style="margin-bottom: 1rem; color: var(--text-main);">Additional Settings</h3>
-            <div class="setting-row">
-                <span class="setting-label">Performance Mode</span>
-                <div class="toggle-switch ${localStorage.getItem('performanceMode') !== 'false' ? 'active' : ''}" onclick="togglePerformanceMode(this)"></div>
-            </div>
+        <div style="margin-top: 1.5rem;">
+            <h3 class="settings-group-title">Additional Settings</h3>
+            ${getSpeedSettingsMarkup({ includePerformanceMode: true, compact: true, highlighted: true })}
             <div class="setting-row">
                 <span class="setting-label">Close Prevention Popup</span>
                 <div class="toggle-switch ${localStorage.getItem('closePreventionEnabled') !== 'false' ? 'active' : ''}" onclick="toggleClosePrevention(this)"></div>
@@ -2173,7 +2716,11 @@ function openSettings() {
                 </select>
             </div>
         </div>
-        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+        <div style="margin-top: 1.5rem;">
+            <div class="setting-row">
+                <span class="setting-label">Welcome Tour</span>
+                <button class="settings-button" onclick="openWelcomeTour(0)">Open Tour</button>
+            </div>
             <div class="setting-row">
                 <span class="setting-label">Export Save Data</span>
                 <button class="settings-button" onclick="saveData()">Export</button>
@@ -2192,11 +2739,7 @@ function openSettings() {
             </div>
         </div>
     `);
-    document.getElementById('cloakSiteSelect').addEventListener('change', (e) => {
-        const isCustom = e.target.value === 'Custom';
-        document.getElementById('customCloakRow').style.display = isCustom ? 'flex' : 'none';
-        document.getElementById('customCloakFaviconRow').style.display = isCustom ? 'flex' : 'none';
-    });
+    initSharedSettingsControls();
 }
 function toggleTheme(enable, btn) {
     state.theme = enable ? 'classic' : 'modern';
@@ -2215,57 +2758,200 @@ function toggleTheme(enable, btn) {
 }
 const themePresets = {
     default: { primary: '#fc2651', bg: '#0f172a', cardBg: '#1e293b', text: '#ffffff' },
-    blue: { primary: '#3b82f6', bg: '#0c1821', cardBg: '#1a2332', text: '#ffffff' },
-    purple: { primary: '#a855f7', bg: '#1a0a2e', cardBg: '#2d1b4e', text: '#ffffff' },
-    green: { primary: '#10b981', bg: '#0a1f14', cardBg: '#1a3429', text: '#ffffff' },
-    orange: { primary: '#f97316', bg: '#1f1108', cardBg: '#332415', text: '#ffffff' },
-    dark: { primary: '#6b7280', bg: '#000000', cardBg: '#111111', text: '#e5e7eb' }
+    blue: { primary: '#3b82f6', bg: '#0c1821', cardBg: '#1a2332', text: '#ffffff', gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', topbarGradient: 'linear-gradient(135deg, rgba(59,130,246,0.38) 0%, rgba(12,24,33,0.94) 100%)' },
+    purple: { primary: '#a855f7', bg: '#1a0a2e', cardBg: '#2d1b4e', text: '#ffffff', gradient: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)', topbarGradient: 'linear-gradient(135deg, rgba(168,85,247,0.4) 0%, rgba(26,10,46,0.94) 100%)' },
+    green: { primary: '#10b981', bg: '#0a1f14', cardBg: '#1a3429', text: '#ffffff', gradient: 'linear-gradient(135deg, #10b981 0%, #047857 100%)', topbarGradient: 'linear-gradient(135deg, rgba(16,185,129,0.36) 0%, rgba(10,31,20,0.94) 100%)' },
+    orange: { primary: '#f97316', bg: '#1f1108', cardBg: '#332415', text: '#ffffff', gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', topbarGradient: 'linear-gradient(135deg, rgba(249,115,22,0.4) 0%, rgba(31,17,8,0.94) 100%)' },
+    dark: { primary: '#6b7280', bg: '#000000', cardBg: '#111111', text: '#e5e7eb', gradient: 'linear-gradient(135deg, #374151 0%, #000000 100%)', topbarGradient: 'linear-gradient(135deg, rgba(107,114,128,0.35) 0%, rgba(0,0,0,0.96) 100%)' },
+    crimson: { primary: '#ef4444', bg: '#20090f', cardBg: '#3b141f', text: '#ffe8ec', gradient: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)', topbarGradient: 'linear-gradient(135deg, rgba(239,68,68,0.44) 0%, rgba(32,9,15,0.95) 100%)' },
+    cyan: { primary: '#22d3ee', bg: '#041a22', cardBg: '#0c2d3a', text: '#e6fbff', gradient: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)', topbarGradient: 'linear-gradient(135deg, rgba(34,211,238,0.46) 0%, rgba(4,26,34,0.95) 100%)' },
+    gold: { primary: '#fbbf24', bg: '#221806', cardBg: '#3a2a11', text: '#fff6da', gradient: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)', topbarGradient: 'linear-gradient(135deg, rgba(251,191,36,0.46) 0%, rgba(34,24,6,0.95) 100%)' },
+    rose: { primary: '#fb7185', bg: '#230e1a', cardBg: '#3a1930', text: '#ffe9f2', gradient: 'linear-gradient(135deg, #fb7185 0%, #db2777 100%)', topbarGradient: 'linear-gradient(135deg, rgba(251,113,133,0.42) 0%, rgba(35,14,26,0.95) 100%)' },
+    midnight: { primary: '#8b5cf6', bg: '#090d25', cardBg: '#171f3d', text: '#e7ecff', gradient: 'linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)', topbarGradient: 'linear-gradient(135deg, rgba(139,92,246,0.38) 0%, rgba(9,13,37,0.95) 100%)' },
+    arctic: { primary: '#38bdf8', bg: '#0b1827', cardBg: '#15283d', text: '#f1f9ff', gradient: 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)', topbarGradient: 'linear-gradient(135deg, rgba(56,189,248,0.36) 0%, rgba(11,24,39,0.95) 100%)' }
 };
+const DEFAULT_THEME_CONFIG = {
+    preset: 'default',
+    primary: '#fc2651',
+    bg: '#0f172a',
+    cardBg: '#1e293b',
+    text: '#ffffff',
+    gradient: '',
+    topbarGradient: ''
+};
+const THEME_CONFIG_KEY = 'themeConfig';
 
-function applyThemePreset(preset) {
+function normalizeHexColor(value, fallback) {
+    const raw = String(value || '').trim();
+    if (/^#[0-9a-fA-F]{6}$/.test(raw)) return raw.toLowerCase();
+    return fallback;
+}
+function getThemeConfig() {
+    let config = null;
+    try {
+        config = JSON.parse(localStorage.getItem(THEME_CONFIG_KEY) || 'null');
+    } catch (_) {
+        config = null;
+    }
+    if (config && typeof config === 'object') {
+        const fallbackPreset = themePresets[config.preset] ? config.preset : 'default';
+        return {
+            preset: fallbackPreset,
+            primary: normalizeHexColor(config.primary, DEFAULT_THEME_CONFIG.primary),
+            bg: normalizeHexColor(config.bg, DEFAULT_THEME_CONFIG.bg),
+            cardBg: normalizeHexColor(config.cardBg, DEFAULT_THEME_CONFIG.cardBg),
+            text: normalizeHexColor(config.text, DEFAULT_THEME_CONFIG.text),
+            gradient: typeof config.gradient === 'string' ? config.gradient : '',
+            topbarGradient: typeof config.topbarGradient === 'string' ? config.topbarGradient : ''
+        };
+    }
+    const migratedPreset = localStorage.getItem('themePreset') || 'default';
+    const migratedGradient = localStorage.getItem('gradientPrimary') || '';
+    return {
+        preset: themePresets[migratedPreset] ? migratedPreset : 'default',
+        primary: normalizeHexColor(localStorage.getItem('primaryColor'), DEFAULT_THEME_CONFIG.primary),
+        bg: normalizeHexColor(localStorage.getItem('bgColor'), DEFAULT_THEME_CONFIG.bg),
+        cardBg: normalizeHexColor(localStorage.getItem('cardBgColor'), DEFAULT_THEME_CONFIG.cardBg),
+        text: normalizeHexColor(localStorage.getItem('textColor'), DEFAULT_THEME_CONFIG.text),
+        gradient: migratedGradient,
+        topbarGradient: localStorage.getItem('topbarGradient') || ''
+    };
+}
+function saveThemeConfig(config) {
+    localStorage.setItem(THEME_CONFIG_KEY, JSON.stringify(config));
+    localStorage.setItem('themePreset', config.preset);
+    localStorage.setItem('primaryColor', config.primary);
+    localStorage.setItem('bgColor', config.bg);
+    localStorage.setItem('cardBgColor', config.cardBg);
+    localStorage.setItem('textColor', config.text);
+    if (config.gradient) {
+        localStorage.setItem('gradientPrimary', config.gradient);
+    } else {
+        localStorage.removeItem('gradientPrimary');
+    }
+    if (config.topbarGradient) {
+        localStorage.setItem('topbarGradient', config.topbarGradient);
+    } else {
+        localStorage.removeItem('topbarGradient');
+    }
+}
+function syncThemeControls() {
+    const config = getThemeConfig();
+    const mapping = {
+        primaryColor: config.primary,
+        bgColor: config.bg,
+        cardBgColor: config.cardBg,
+        textColor: config.text
+    };
+    Object.entries(mapping).forEach(([id, value]) => {
+        const input = document.getElementById(id);
+        if (input) input.value = value;
+    });
+    const select = document.getElementById('themePreset');
+    if (select) select.value = config.preset;
+}
+function applyThemeConfig(config = getThemeConfig()) {
+    document.documentElement.style.setProperty('--primary', config.primary);
+    const primaryLight = adjustColorBrightness(config.primary, 30);
+    document.documentElement.style.setProperty('--primary-light', primaryLight);
+    const darkerPrimary = adjustColorBrightness(config.primary, -10);
+    const generatedGradient = `linear-gradient(135deg, ${config.primary} 0%, ${darkerPrimary} 100%)`;
+    document.documentElement.style.setProperty('--gradient-primary', config.gradient || generatedGradient);
+    const generatedTopbar = `linear-gradient(135deg, color-mix(in srgb, ${config.primary} 45%, transparent) 0%, color-mix(in srgb, ${config.bg} 92%, #000) 100%)`;
+    document.documentElement.style.setProperty('--topbar-gradient', config.topbarGradient || generatedTopbar);
+    document.documentElement.style.setProperty('--topbar-border', `color-mix(in srgb, ${config.primary} 24%, rgba(255, 255, 255, 0.2))`);
+    document.documentElement.style.setProperty('--bg-accent-a', `color-mix(in srgb, ${config.primary} 34%, transparent)`);
+    document.documentElement.style.setProperty('--bg-accent-b', `color-mix(in srgb, ${adjustColorBrightness(config.primary, 28)} 26%, transparent)`);
+    document.documentElement.style.setProperty('--nav-pill-bg', `color-mix(in srgb, ${config.primary} 14%, rgba(255, 255, 255, 0.06))`);
+    document.documentElement.style.setProperty('--nav-pill-bg-active', `color-mix(in srgb, ${config.primary} 28%, rgba(255, 255, 255, 0.1))`);
+    document.documentElement.style.setProperty('--card-glow-strong', `color-mix(in srgb, ${config.primary} 78%, transparent)`);
+    document.documentElement.style.setProperty('--card-glow-soft', `color-mix(in srgb, ${config.primary} 52%, transparent)`);
+    document.documentElement.style.setProperty('--zone-header-gradient', `linear-gradient(135deg, color-mix(in srgb, ${config.primary} 42%, transparent) 0%, color-mix(in srgb, ${config.bg} 90%, #000) 100%)`);
+    document.documentElement.style.setProperty('--zone-surface-bg', `color-mix(in srgb, ${config.primary} 22%, rgba(255, 255, 255, 0.06))`);
+    document.documentElement.style.setProperty('--zone-surface-border', `color-mix(in srgb, ${config.primary} 36%, rgba(255, 255, 255, 0.22))`);
+    document.documentElement.style.setProperty('--zone-title-gradient', `linear-gradient(135deg, #ffffff 0%, color-mix(in srgb, ${config.primary} 30%, #ffffff) 100%)`);
+    document.documentElement.style.setProperty('--hero-title-gradient', `linear-gradient(135deg, #ffffff 0%, color-mix(in srgb, ${config.primary} 38%, #dbeafe) 100%)`);
+    document.documentElement.style.setProperty('--tag-bg', `color-mix(in srgb, ${config.primary} 18%, rgba(255, 255, 255, 0.06))`);
+    document.documentElement.style.setProperty('--tag-border', `color-mix(in srgb, ${config.primary} 26%, rgba(255, 255, 255, 0.12))`);
+    document.documentElement.style.setProperty('--input-surface-bg', `color-mix(in srgb, ${config.cardBg} 56%, rgba(255, 255, 255, 0.08))`);
+    document.documentElement.style.setProperty('--input-surface-border', `color-mix(in srgb, ${config.primary} 24%, rgba(255, 255, 255, 0.15))`);
+    document.documentElement.style.setProperty('--zone-overlay-bg', `color-mix(in srgb, ${config.bg} 84%, rgba(2, 6, 23, 0.74))`);
+    document.documentElement.style.setProperty('--zone-overlay-border', `color-mix(in srgb, ${config.primary} 20%, rgba(255,255,255,0.08))`);
+    document.documentElement.style.setProperty('--modal-overlay-bg', `color-mix(in srgb, ${config.bg} 74%, rgba(2, 6, 23, 0.7))`);
+    document.documentElement.style.setProperty('--modal-panel-bg', `linear-gradient(160deg, color-mix(in srgb, ${config.cardBg} 82%, rgba(255,255,255,0.08)) 0%, color-mix(in srgb, ${config.bg} 88%, rgba(2,6,23,0.84)) 100%)`);
+    document.documentElement.style.setProperty('--modal-panel-border', `color-mix(in srgb, ${config.primary} 28%, rgba(255,255,255,0.16))`);
+    document.documentElement.style.setProperty('--modal-header-border', `color-mix(in srgb, ${config.primary} 24%, rgba(255,255,255,0.12))`);
+    document.documentElement.style.setProperty('--modal-row-border', `color-mix(in srgb, ${config.primary} 16%, rgba(255,255,255,0.1))`);
+    document.documentElement.style.setProperty('--modal-close-bg', `color-mix(in srgb, ${config.primary} 14%, rgba(255,255,255,0.06))`);
+    document.documentElement.style.setProperty('--modal-close-bg-hover', `color-mix(in srgb, ${config.primary} 24%, rgba(255,255,255,0.12))`);
+    document.documentElement.style.setProperty('--modal-close-border', `color-mix(in srgb, ${config.primary} 30%, rgba(255,255,255,0.2))`);
+    document.documentElement.style.setProperty('--modal-shadow', `0 24px 52px color-mix(in srgb, ${config.primary} 24%, rgba(0,0,0,0.45))`);
+
+    document.documentElement.style.setProperty('--bg-main', config.bg);
+    document.documentElement.style.setProperty('--bg-dark', config.bg);
+    document.documentElement.style.setProperty('--bg-darkest', adjustColorBrightness(config.bg, -18));
+
+    document.documentElement.style.setProperty('--bg-card', config.cardBg);
+    document.documentElement.style.setProperty('--bg-card-hover', adjustColorBrightness(config.cardBg, 12));
+    document.documentElement.style.setProperty('--border', adjustColorBrightness(config.cardBg, -12));
+
+    document.documentElement.style.setProperty('--text-main', config.text);
+}
+function setThemePreset(preset) {
+    if (preset === 'custom') {
+        const customConfig = getThemeConfig();
+        customConfig.preset = 'custom';
+        customConfig.gradient = '';
+        customConfig.topbarGradient = '';
+        saveThemeConfig(customConfig);
+        applyThemeConfig(customConfig);
+        syncThemeControls();
+        return;
+    }
     const colors = themePresets[preset];
     if (!colors) return;
-    
-    
-    localStorage.setItem('primaryColor', colors.primary);
-    localStorage.setItem('bgColor', colors.bg);
-    localStorage.setItem('cardBgColor', colors.cardBg);
-    localStorage.setItem('textColor', colors.text);
-    
-    document.getElementById('primaryColor').value = colors.primary;
-    document.getElementById('bgColor').value = colors.bg;
-    document.getElementById('cardBgColor').value = colors.cardBg;
-    document.getElementById('textColor').value = colors.text;
-    
-    applyCustomColors();
+    const config = {
+        preset,
+        primary: colors.primary,
+        bg: colors.bg,
+        cardBg: colors.cardBg,
+        text: colors.text,
+        gradient: colors.gradient || '',
+        topbarGradient: colors.topbarGradient || ''
+    };
+    saveThemeConfig(config);
+    applyThemeConfig(config);
+    syncThemeControls();
 }
-
+function setThemeColor(field, value) {
+    const config = getThemeConfig();
+    if (!['primary', 'bg', 'cardBg', 'text'].includes(field)) return;
+    const fallback = DEFAULT_THEME_CONFIG[field];
+    config[field] = normalizeHexColor(value, fallback);
+    config.preset = 'custom';
+    config.gradient = '';
+    config.topbarGradient = '';
+    saveThemeConfig(config);
+    applyThemeConfig(config);
+    syncThemeControls();
+}
+function resetThemeConfig() {
+    const config = { ...DEFAULT_THEME_CONFIG };
+    saveThemeConfig(config);
+    applyThemeConfig(config);
+    syncThemeControls();
+}
+function applyThemePreset(preset) { setThemePreset(preset); }
 function updateCustomColor(key, value) {
-    localStorage.setItem(key, value);
-    applyCustomColors();
+    const mapping = {
+        primaryColor: 'primary',
+        bgColor: 'bg',
+        cardBgColor: 'cardBg',
+        textColor: 'text'
+    };
+    if (mapping[key]) setThemeColor(mapping[key], value);
 }
-
-function applyCustomColors() {
-    const primary = localStorage.getItem('primaryColor');
-    const bg = localStorage.getItem('bgColor');
-    const cardBg = localStorage.getItem('cardBgColor');
-    const text = localStorage.getItem('textColor');
-    
-    
-    if (primary) {
-        document.documentElement.style.setProperty('--primary', primary);
-        const primaryLight = adjustColorBrightness(primary, 30);
-        const primaryLighter = adjustColorBrightness(primary, 60);
-        document.documentElement.style.setProperty('--primary-light', primaryLight);
-        document.documentElement.style.setProperty('--primary-lighter', primaryLighter);
-        const darkerPrimary = adjustColorBrightness(primary, -10);
-        const gradient = `linear-gradient(135deg, ${primary} 0%, ${darkerPrimary} 100%)`;
-        document.documentElement.style.setProperty('--gradient-primary', gradient);
-    }
-    if (bg) document.documentElement.style.setProperty('--bg-main', bg);
-    if (cardBg) document.documentElement.style.setProperty('--bg-card', cardBg);
-    if (text) document.documentElement.style.setProperty('--text-main', text);
-}
+function applyCustomColors() { applyThemeConfig(); }
 function adjustColorBrightness(hex, percent) {
     const num = parseInt(hex.replace('#', ''), 16);
     const amt = Math.round(2.55 * percent);
@@ -2279,18 +2965,7 @@ function adjustColorBrightness(hex, percent) {
 }
 
 function resetCustomColors() {
-    localStorage.removeItem('primaryColor');
-    localStorage.removeItem('bgColor');
-    localStorage.removeItem('cardBgColor');
-    localStorage.removeItem('textColor');
-    
-    document.documentElement.style.removeProperty('--primary');
-    document.documentElement.style.removeProperty('--gradient-primary');
-    document.documentElement.style.removeProperty('--bg-main');
-    document.documentElement.style.removeProperty('--bg-card');
-    document.documentElement.style.removeProperty('--text-main');
-    
-    location.reload();
+    resetThemeConfig();
 }
 
 function applyCustomCSS() {
@@ -2307,14 +2982,117 @@ function applyCustomCSS() {
 }
 
 function tabCloak() {
-    const t = prompt("Title:", "Google Classroom");
-    const i = prompt("Icon URL:", "https://ssl.gstatic.com/classroom/favicon.png");
-    if (t) document.title = t;
-    if (i) {
-        let l = document.querySelector("link[rel~='icon']");
-        if (!l) { l = document.createElement('link'); l.rel = 'icon'; document.head.appendChild(l); }
-        l.href = i;
+    openModal("Tab Cloak", `
+        <p class="settings-note" style="margin-top:0">Change the tab title and icon.</p>
+        ${getSimpleCloakMarkup({ compact: false, showHeading: false })}
+    `);
+}
+function setWelcomeTourSeen() {
+    localStorage.setItem(WELCOME_TOUR_KEY, 'true');
+}
+function maybeOpenWelcomeTour() {
+    const search = new URLSearchParams(window.location.search);
+    if (localStorage.getItem(WELCOME_TOUR_KEY) === 'true') return;
+    if (search.get('id')) return;
+    if (document.documentElement.dataset.aboutBlank === 'true') return;
+    openWelcomeTour(0);
+}
+function skipWelcomeTour() {
+    setWelcomeTourSeen();
+    activeModalContext = null;
+    closeModal();
+}
+function finishWelcomeTour() {
+    applySimpleCloak();
+    setWelcomeTourSeen();
+    activeModalContext = null;
+    closeModal();
+}
+function getWelcomeTourSteps() {
+    return [
+        {
+            title: 'Welcome to History Net 2',
+            copy: 'This is a quick walkthrough. You can skip it now and open it again later in Settings.',
+            body: `
+                <div class="tour-callout">The main things to know are search, opening games, and the Settings button.</div>
+                <ul class="tour-list">
+                    <li>The home page shows featured games first, then the full list.</li>
+                    <li>Use search if you already know the game name.</li>
+                    <li>Use the gear button for site options.</li>
+                </ul>
+            `
+        },
+        {
+            title: 'Finding Games',
+            copy: 'There are two easy ways to find something.',
+            body: `
+                <ul class="tour-list">
+                    <li>Type in the search bar to filter games.</li>
+                    <li>Scroll the page if you want to browse instead.</li>
+                    <li>You can sort the full list in different ways.</li>
+                </ul>
+                <div class="tour-callout">If you know the name, search is fastest.</div>
+            `
+        },
+        {
+            title: 'Opening Games',
+            copy: 'When a game opens, the buttons at the top help you manage it.',
+            body: `
+                <ul class="tour-list">
+                    <li><strong>Fullscreen</strong> makes the game bigger.</li>
+                    <li><strong>New Tab</strong> opens it in another tab.</li>
+                    <li><strong>Download</strong> saves it when available.</li>
+                    <li><strong>Close</strong> goes back to the game list.</li>
+                </ul>
+                <div class="tour-callout">That is enough for normal use.</div>
+            `
+        },
+        {
+            title: 'Theme and Cloak',
+            copy: 'For better speed, start with Reduce Transparency. Then pick your colors if you want.',
+            body: `
+                ${getSpeedSettingsMarkup({ includePerformanceMode: true, compact: true, highlighted: true })}
+                ${getThemeSettingsMarkup({ includeClassicToggle: true, includeCustomCss: false, compact: true })}
+                ${getSimpleCloakMarkup({ compact: true, showHeading: true })}
+            `
+        }
+    ];
+}
+function renderWelcomeTourStep(stepIndex) {
+    const steps = getWelcomeTourSteps();
+    const step = steps[stepIndex];
+    if (!step) return;
+    const progress = steps.map((_, index) => `<div class="tour-progress-dot ${index <= stepIndex ? 'active' : ''}"></div>`).join('');
+    const isFirst = stepIndex === 0;
+    const isLast = stepIndex === steps.length - 1;
+    document.getElementById('modalTitle').textContent = 'Welcome Tour';
+    document.getElementById('modalContent').innerHTML = `
+        <div class="tour-progress">${progress}</div>
+        <div class="tour-step-kicker">Step ${stepIndex + 1} of ${steps.length}</div>
+        <h2 class="tour-step-title">${step.title}</h2>
+        <p class="tour-step-copy">${step.copy}</p>
+        ${step.body}
+        <div class="tour-actions">
+            <button class="text-button" onclick="skipWelcomeTour()">Skip Tour</button>
+            <div class="tour-actions-right">
+                ${isFirst ? '' : '<button class="settings-button secondary-button" onclick="openWelcomeTour(' + (stepIndex - 1) + ', true)">Back</button>'}
+                ${isLast ? '<button class="settings-button" onclick="finishWelcomeTour()">Finish</button>' : '<button class="settings-button" onclick="openWelcomeTour(' + (stepIndex + 1) + ', true)">Next</button>'}
+            </div>
+        </div>
+    `;
+    if (isLast) {
+        initSharedSettingsControls();
     }
+}
+function openWelcomeTour(stepIndex = 0, reopen = false) {
+    if (!reopen) {
+        openModalWithContext('Welcome Tour', '', {
+            onClose: () => {
+                setWelcomeTourSeen();
+            }
+        });
+    }
+    renderWelcomeTourStep(stepIndex);
 }
 function openDMCA() {
     openModal("DMCA", `
@@ -2616,9 +3394,13 @@ function openInCloak() {
     }
 }
 function getCloakTitle() {
+    const simpleTitle = localStorage.getItem('customCloakTitle');
+    if (simpleTitle && simpleTitle.trim()) {
+        return simpleTitle.trim();
+    }
     const site = localStorage.getItem('cloakSite') || 'Google Classroom';
     if (site === 'Custom') {
-        return localStorage.getItem('customCloakTitle') || 'My Drive - Google Drive';
+        return localStorage.getItem('customCloakTitle') || 'Google Classroom';
     }
     const titles = {
         'Google Classroom': 'Classes',
@@ -2633,6 +3415,10 @@ function getCloakTitle() {
     return titles[site] || 'Google Classroom';
 }
 function getCloakFavicon() {
+    const simpleFavicon = localStorage.getItem('customCloakFavicon');
+    if (simpleFavicon && simpleFavicon.trim()) {
+        return simpleFavicon.trim();
+    }
     const site = localStorage.getItem('cloakSite') || 'Google Classroom';
     const favicons = {
         'Google Classroom': 'https://ssl.gstatic.com/classroom/favicon.png',
@@ -2643,7 +3429,7 @@ function getCloakFavicon() {
         'Google Docs': 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico',
         'Google Slides': 'https://ssl.gstatic.com/docs/presentations/images/favicon5.ico',
         'Khan Academy': 'https://cdn.kastatic.org/images/favicon.ico',
-        'Custom': localStorage.getItem('customCloakFavicon') || 'https://www.google.com/favicon.ico'
+        'Custom': localStorage.getItem('customCloakFavicon') || 'https://ssl.gstatic.com/classroom/favicon.png'
     };
     return favicons[site] || favicons['Google Classroom'];
 }
@@ -2722,6 +3508,21 @@ function togglePerformanceMode(btn) {
     
     btn.classList.toggle('active');
 }
+function applyTransparencyMode() {
+    const reduceTransparency = localStorage.getItem('reduceTransparency') === 'true';
+    document.body.classList.toggle('reduce-transparency', reduceTransparency);
+}
+function toggleReduceTransparency(btn) {
+    const isEnabled = btn.classList.contains('active');
+    const newState = !isEnabled;
+    if (newState) {
+        localStorage.setItem('reduceTransparency', 'true');
+    } else {
+        localStorage.removeItem('reduceTransparency');
+    }
+    btn.classList.toggle('active');
+    applyTransparencyMode();
+}
 function beforeUnloadHandler(e) {
     e.preventDefault();
     e.returnValue = '';
@@ -2782,7 +3583,7 @@ function checkAutoCloak() {
                 .replace(/`/g, '\\`')
                 .replace(/\$/g, '\\$');
             
-            const buttonPageHtml = `<html><head><title>Click to Continue</title><style>body{margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#0f172a;font-family:Arial,sans-serif}button{padding:1.5rem 3rem;font-size:1.5rem;background:#fc2651;color:#fff;border:none;border-radius:12px;cursor:pointer;font-weight:bold}button:hover{background:#e91e47}</style></head><body><button onclick="openBlob()">Click Here</button><script>function openBlob(){let html=\`${escapedHtml}\`;html=html.replace('<html','<html data-about-blank="true"');html=html.replace('<title>History Net 2<\\/title>',\`<title>${cloakTitle}<\\/title>\`);html=html.replace(/favicon\\.png/g,'${faviconUrl}');html=html.replace(/<link[^>]*rel=["']icon["'][^>]*>/gi,'');html=html.replace(/<link[^>]*rel=["']apple-touch-icon["'][^>]*>/gi,'');html=html.replace('<\\/head>',\`<link rel="icon" type="image/x-icon" href="${faviconUrl}"><link rel="shortcut icon" href="${faviconUrl}"><link rel="apple-touch-icon" href="${faviconUrl}"><\\/head>\`);const blob=new Blob([html],{type:'text/html'});const blobUrl=URL.createObjectURL(blob);window.open(blobUrl,'_blank');window.close();if(opener)opener.location.replace('https://www.google.com');}<\\/script></body></html>`;
+            const buttonPageHtml = `<html><head><title>Click to Continue</title><style>body{margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#0f172a;font-family:'Inter',Arial,Helvetica,sans-serif}button{padding:1.5rem 3rem;font-size:1.5rem;background:#fc2651;color:#fff;border:none;border-radius:12px;cursor:pointer;font-weight:bold}button:hover{background:#e91e47}</style></head><body><button onclick="openBlob()">Click Here</button><script>function openBlob(){let html=\`${escapedHtml}\`;html=html.replace('<html','<html data-about-blank="true"');html=html.replace('<title>History Net 2<\\/title>',\`<title>${cloakTitle}<\\/title>\`);html=html.replace(/favicon\\.png/g,'${faviconUrl}');html=html.replace(/<link[^>]*rel=["']icon["'][^>]*>/gi,'');html=html.replace(/<link[^>]*rel=["']apple-touch-icon["'][^>]*>/gi,'');html=html.replace('<\\/head>',\`<link rel="icon" type="image/x-icon" href="${faviconUrl}"><link rel="shortcut icon" href="${faviconUrl}"><link rel="apple-touch-icon" href="${faviconUrl}"><\\/head>\`);const blob=new Blob([html],{type:'text/html'});const blobUrl=URL.createObjectURL(blob);window.open(blobUrl,'_blank');window.close();if(opener)opener.location.replace('https://www.google.com');}<\\/script></body></html>`;
             
             const dataUrl = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(buttonPageHtml)));
             const win = window.open(dataUrl, '_blank');
@@ -2793,7 +3594,8 @@ function checkAutoCloak() {
     }
 }
 checkAutoCloak();
-applyCustomColors();
+applyThemeConfig();
+applyTransparencyMode();
 const customCSS = localStorage.getItem('customCSS');
 if (customCSS) {
     const styleEl = document.createElement('style');
