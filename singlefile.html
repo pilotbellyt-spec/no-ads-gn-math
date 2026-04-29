@@ -116,6 +116,61 @@ body {
     display: flex;
     flex-direction: column;
 }
+.app-sidebar {
+    position: fixed;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 0.6rem;
+    border-radius: 14px;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    box-shadow: var(--shadow-lg);
+}
+.sidebar-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    position: relative;
+}
+.sidebar-btn:hover {
+    transform: translateX(2px);
+    background: rgba(255, 255, 255, 0.16);
+}
+.sidebar-tooltip {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(2, 6, 23, 0.95);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+.sidebar-btn:hover .sidebar-tooltip {
+    opacity: 1;
+}
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -225,9 +280,9 @@ header {
     backdrop-filter: none;
 }
 .nav-content {
-    max-width: 1400px;
+    width: min(100%, 1400px);
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 10px 1.5rem 10px 1.5rem;
     display: flex;
     gap: 1rem;
     overflow-x: auto;
@@ -1295,6 +1350,11 @@ footer {
         gap: 1rem;
     }
 }
+@media (max-width: 980px) {
+    .app-sidebar {
+        display: none;
+    }
+}
 @media (max-width: 480px) {
     .featured-slider {
         height: 250px;
@@ -1625,6 +1685,16 @@ body.classic-theme main {
 </style>
 </head>
 <body>
+<aside class="app-sidebar" aria-label="Quick Sidebar">
+    <button class="sidebar-btn" onclick="placeboHome()" title="Home" aria-label="Home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg>
+        <span class="sidebar-tooltip">Home</span>
+    </button>
+    <button class="sidebar-btn" onclick="openBrowseZone()" title="Browse" aria-label="Browse">
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M3 10h14"/><path d="M10 3a11 11 0 0 1 0 14"/><path d="M10 3a11 11 0 0 0 0 14"/><path d="m14.7 14.7 5.3 2.1-2.2 1.1-1.1 2.2z"/></svg>
+        <span class="sidebar-tooltip">Browse</span>
+    </button>
+</aside>
 <header>
 <div class="header-upper">
 <div class="logo" onclick="location.reload()">
@@ -1811,6 +1881,26 @@ function isBlockedDomain(url) {
         return schoolList.some(school => domain.includes(school));
     } catch(e) { return false; }
 }
+function enableHorizontalWheelScroll() {
+    const nav = document.getElementById('navContent');
+    if (!nav || nav.dataset.wheelBound === '1') return;
+    nav.dataset.wheelBound = '1';
+    nav.addEventListener('wheel', (event) => {
+        const canScroll = nav.scrollWidth > nav.clientWidth;
+        if (!canScroll) return;
+        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        if (!delta) return;
+        nav.scrollLeft += delta;
+        event.preventDefault();
+    }, { passive: false });
+}
+function placeboHome() {
+    return false;
+}
+function openBrowseZone() {
+    markFeatureUsed('browse');
+    openGame('1-0');
+}
 const originalFetch = window.fetch;
 window.fetch = function(url, options) {
     if (isBlockedDomain(url)) return Promise.reject(new Error("Blocked"));
@@ -1826,7 +1916,139 @@ const CONFIG = {
     zones: "https://cdn.jsdelivr.net/gh/freebuisness/assets@latest/zones.json",
     tagsZones: "https://cdn.jsdelivr.net/gh/sealiee11/gnmathstuff@main/zones.json",
     covers: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main",
+    html: "https://cdn.jsdelivr.net/gh/freebuisness/html@main"
 };
+const CUSTOM_ZONE_OVERRIDES = [
+    // Add custom zone overrides here.
+    // Use zone IDs (for example "596"). Local overrides are automatically converted to "<zoneId>-0".
+    {
+        id: "1",
+        name: "BROWSE",
+        author: "History Net 2",
+        authorLink: "https://sites.google.com/students.srvusd.net/history-net-2/",
+        cover: "https://c8.alamy.com/comp/W7M5T2/simple-flat-browser-search-bar-or-address-bar-icon-vector-illustration-W7M5T2.jpg",
+        url: "https://brawl.blooket.com/gs/MTUyLjUzLjUyLjEwMw==/",
+        special: ["Proxy"],
+        tags: ["Proxy", "Tools"]
+    }
+];
+
+const SOURCE_CONFIG_KEY = 'sourceConfig';
+function makeCompositeZoneId(rawId, sourceIndex) {
+    const baseId = String(rawId).trim();
+    return `${baseId}-${sourceIndex + 1}`;
+}
+function parseCompositeZoneId(id) {
+    if (id == null) return { baseId: '', sourceId: '', id: String(id) };
+    const str = String(id);
+    const parts = str.split('-');
+    if (parts.length === 1) {
+        return { baseId: parts[0], sourceId: '', id: str };
+    }
+    const sourceId = parts.pop();
+    return { baseId: parts.join('-'), sourceId, id: str };
+}
+function compareZoneIds(a, b) {
+    const left = parseCompositeZoneId(a);
+    const right = parseCompositeZoneId(b);
+    const leftNum = Number(left.baseId);
+    const rightNum = Number(right.baseId);
+    if (!Number.isNaN(leftNum) && !Number.isNaN(rightNum) && leftNum !== rightNum) {
+        return leftNum - rightNum;
+    }
+    if (left.baseId !== right.baseId) {
+        return left.baseId.localeCompare(right.baseId);
+    }
+    const leftSource = Number(left.sourceId);
+    const rightSource = Number(right.sourceId);
+    if (!Number.isNaN(leftSource) && !Number.isNaN(rightSource)) {
+        return leftSource - rightSource;
+    }
+    return left.sourceId.localeCompare(right.sourceId);
+}
+function getFavoriteIds() {
+    try {
+        const stored = JSON.parse(localStorage.getItem('favorites') || '[]');
+        return Array.isArray(stored) ? stored.map(String) : [];
+    } catch (e) {
+        return [];
+    }
+}
+function normalizeSourceArray(value) {
+    if (Array.isArray(value)) {
+        return value.map(v => String(v || '').trim()).filter(Boolean);
+    }
+    if (typeof value === 'string') {
+        return value.split(/\r?\n|;/).map(v => v.trim()).filter(Boolean);
+    }
+    return [];
+}
+function formatSourceLines(list) {
+    return Array.isArray(list) ? list.join('\n') : '';
+}
+function getSourceConfig() {
+    const defaultSources = {
+        zones: [CONFIG.zones],
+        covers: [CONFIG.covers],
+        html: [CONFIG.html]
+    };
+    try {
+        const stored = JSON.parse(localStorage.getItem(SOURCE_CONFIG_KEY) || 'null');
+        if (stored && typeof stored === 'object') {
+            return {
+                zones: normalizeSourceArray(stored.zones).length ? normalizeSourceArray(stored.zones) : defaultSources.zones,
+                covers: normalizeSourceArray(stored.covers).length ? normalizeSourceArray(stored.covers) : defaultSources.covers,
+                html: normalizeSourceArray(stored.html).length ? normalizeSourceArray(stored.html) : defaultSources.html
+            };
+        }
+    } catch (e) {}
+    return defaultSources;
+}
+function saveSourceConfig(config) {
+    localStorage.setItem(SOURCE_CONFIG_KEY, JSON.stringify({
+        zones: normalizeSourceArray(config.zones),
+        covers: normalizeSourceArray(config.covers),
+        html: normalizeSourceArray(config.html)
+    }));
+}
+function applyCustomZones() {
+    if (!Array.isArray(CUSTOM_ZONE_OVERRIDES)) return;
+    CUSTOM_ZONE_OVERRIDES.forEach(customZone => {
+        if (!customZone || customZone.id == null) return;
+        const parsed = parseCompositeZoneId(customZone.id);
+        const baseId = String(parsed.baseId || customZone.id).trim();
+        if (!baseId) return;
+        const overrideId = `${baseId}-0`;
+        const normalizedOverride = {
+            ...customZone,
+            id: overrideId,
+            sourceId: 0,
+            originalId: baseId
+        };
+        const index = state.games.findIndex(g => g.id === overrideId);
+        if (index > -1) {
+            state.games[index] = { ...state.games[index], ...normalizedOverride };
+        } else {
+            state.games.push(normalizedOverride);
+        }
+    });
+}
+function normalizeTagGamesToCompositeIds(tagGames) {
+    if (!Array.isArray(tagGames)) return [];
+    return tagGames.map(tagGame => {
+        if (!tagGame || tagGame.id == null) return tagGame;
+        const rawId = String(tagGame.id).trim();
+        const exactMatch = state.games.find(game => game.id === rawId);
+        if (exactMatch) {
+            return { ...tagGame, id: exactMatch.id };
+        }
+        const sourceMatch = state.games.find(game => String(game.originalId) === rawId);
+        if (sourceMatch) {
+            return { ...tagGame, id: sourceMatch.id };
+        }
+        return tagGame;
+    });
+}
 let state = {
     games: [],
     hits: {},
@@ -1843,6 +2065,15 @@ let activeModalContext = null;
 let activeEducationTipId = null;
 let educationTipTimer = null;
 const EDUCATION_TIPS = [
+    {
+        id: 'browse-tip',
+        featureId: 'browse',
+        selector: '.app-sidebar .sidebar-btn[aria-label="Browse"]',
+        title: 'Use Browse for quick web access',
+        body: 'Click Browse in the sidebar to open it right away; nothing is blocked.',
+        action: null,
+        mandatory: true
+    },
     {
         id: 'search-tip',
         featureId: 'search',
@@ -1935,8 +2166,10 @@ function saveEducationTipState(state) {
     localStorage.setItem(EDUCATION_TIP_STATE_KEY, JSON.stringify(state));
 }
 function getPanicSettings() {
+    const storedKey = localStorage.getItem(PANIC_KEY_KEY);
+    const key = storedKey == null ? '`' : storedKey;
     return {
-        key: normalizeHotkeyToken(localStorage.getItem(PANIC_KEY_KEY) || '`'),
+        key: normalizeHotkeyToken(key),
         url: normalizePanicUrl(localStorage.getItem(PANIC_URL_KEY) || 'https://www.google.com')
     };
 }
@@ -1979,6 +2212,9 @@ function getRandomEducationTipDelay() {
 function getEligibleEducationTips() {
     return EDUCATION_TIPS.filter(tip => !hasUsedFeature(tip.featureId));
 }
+function getMandatoryEducationTip() {
+    return EDUCATION_TIPS.find(tip => tip.mandatory && !hasUsedFeature(tip.featureId)) || null;
+}
 function getPanicSettingsMarkup(options = {}) {
     const { compact = false } = options;
     const panic = getPanicSettings();
@@ -1999,6 +2235,43 @@ function getPanicSettingsMarkup(options = {}) {
             </div>
         </div>
     `;
+}
+function getSourceSettingsMarkup(options = {}) {
+    const { compact = false } = options;
+    const sourceConfig = getSourceConfig();
+    return `
+        <div class="settings-group" style="margin-top: ${compact ? '1rem' : '1.5rem'};">
+            <h3 class="settings-group-title">Source Configuration</h3>
+            <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                <span class="setting-label">Zone sources</span>
+                <textarea id="zonesSourcesInput" placeholder="One source URL per line" style="width:100%;height:90px;padding:0.75rem;border-radius:var(--radius-sm);font-family:monospace;font-size:12px;resize:vertical">${formatSourceLines(sourceConfig.zones)}</textarea>
+            </div>
+            <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                <span class="setting-label">Cover sources</span>
+                <textarea id="coversSourcesInput" placeholder="One source URL per line" style="width:100%;height:90px;padding:0.75rem;border-radius:var(--radius-sm);font-family:monospace;font-size:12px;resize:vertical">${formatSourceLines(sourceConfig.covers)}</textarea>
+            </div>
+            <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                <span class="setting-label">HTML sources</span>
+                <textarea id="htmlSourcesInput" placeholder="One source URL per line" style="width:100%;height:90px;padding:0.75rem;border-radius:var(--radius-sm);font-family:monospace;font-size:12px;resize:vertical">${formatSourceLines(sourceConfig.html)}</textarea>
+            </div>
+            <p class="settings-note">Add multiple sources to use fallback URLs for zones, covers and game HTML. Save and reload to apply the new source list.</p>
+            <div class="settings-group-actions">
+                <button class="settings-button" onclick="saveSourceSettings()">Save Data Sources</button>
+            </div>
+        </div>
+    `;
+}
+function saveSourceSettings() {
+    const zonesText = document.getElementById('zonesSourcesInput')?.value || '';
+    const coversText = document.getElementById('coversSourcesInput')?.value || '';
+    const htmlText = document.getElementById('htmlSourcesInput')?.value || '';
+    const config = getSourceConfig();
+    config.zones = normalizeSourceArray(zonesText);
+    config.covers = normalizeSourceArray(coversText);
+    config.html = normalizeSourceArray(htmlText);
+    saveSourceConfig(config);
+    alert('Data source configuration saved. Reloading to apply changes.');
+    location.reload();
 }
 function savePanicSettings() {
     const keyInput = document.getElementById('panicKeyInput');
@@ -2179,6 +2452,16 @@ function maybeShowScheduledEducationTip() {
     saveEducationTipState({ nextAt: Date.now() + getRandomEducationTipDelay() });
     scheduleEducationTips();
 }
+function maybeShowMandatoryEducationTip() {
+    if (activeEducationTipId) return false;
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalOpen = modalOverlay && modalOverlay.classList.contains('open');
+    if (modalOpen) return false;
+    const tip = getMandatoryEducationTip();
+    if (!tip) return false;
+    showEducationTip(tip.id);
+    return true;
+}
 function repositionActiveEducationTooltip() {
     if (!activeEducationTipId) return;
     const tip = getEducationTipById(activeEducationTipId);
@@ -2194,46 +2477,80 @@ function attachZoneFrameHotkeys() {
 }
 async function init() {
     
-    let zonesURL = CONFIG.zones;
+    const sourceConfig = getSourceConfig();
+    let zonesURL = sourceConfig.zones.length ? sourceConfig.zones[0] : CONFIG.zones;
+    let zoneSources = sourceConfig.zones.length ? [...sourceConfig.zones] : [CONFIG.zones];
     let sharesponse;
-    try { 
-        sharesponse = await fetch("https://api.github.com/repos/freebuisness/assets/commits?t="+Date.now()); 
-    } catch (error) {}
-    
-    if (sharesponse && sharesponse.status === 200) {
+    if (zoneSources.length === 1 && zoneSources[0] === CONFIG.zones) {
         try {
-            const shajson = await sharesponse.json();
-            const sha = shajson[0]['sha'];
-            if (sha) {
-                zonesURL = `https://cdn.jsdelivr.net/gh/freebuisness/assets@${sha}/zones.json`;
-            }
-        } catch (error) {
+            sharesponse = await fetch("https://api.github.com/repos/freebuisness/assets/commits?t="+Date.now()); 
+        } catch (error) {}
+        
+        if (sharesponse && sharesponse.status === 200) {
             try {
-                const secondarysharesponse = await fetch("https://raw.githubusercontent.com/gn-math/xml/refs/heads/main/sha.txt?t="+Date.now());
-                if (secondarysharesponse && secondarysharesponse.status === 200) {
-                    const sha = (await secondarysharesponse.text()).trim();
-                    if (sha) {
-                        zonesURL = `https://cdn.jsdelivr.net/gh/freebuisness/assets@${sha}/zones.json`;
-                    }
+                const shajson = await sharesponse.json();
+                const sha = shajson[0]['sha'];
+                if (sha) {
+                    zoneSources[0] = `https://cdn.jsdelivr.net/gh/freebuisness/assets@${sha}/zones.json`;
                 }
-            } catch(error) {}
+            } catch (error) {
+                try {
+                    const secondarysharesponse = await fetch("https://raw.githubusercontent.com/gn-math/xml/refs/heads/main/sha.txt?t="+Date.now());
+                    if (secondarysharesponse && secondarysharesponse.status === 200) {
+                        const sha = (await secondarysharesponse.text()).trim();
+                        if (sha) {
+                            zoneSources[0] = `https://cdn.jsdelivr.net/gh/freebuisness/assets@${sha}/zones.json`;
+                        }
+                    }
+                } catch(error) {}
+            }
         }
     }
     
     try {
-        const zonesRes = await fetch(zonesURL + "?t=" + Date.now());
-        state.games = await zonesRes.json();
+        const zoneList = [];
+        for (let sourceIndex = 0; sourceIndex < zoneSources.length; sourceIndex++) {
+            const source = zoneSources[sourceIndex];
+            try {
+                const zonesRes = await fetch(source + "?t=" + Date.now());
+                if (!zonesRes.ok) continue;
+                const zonesData = await zonesRes.json();
+                if (!Array.isArray(zonesData)) continue;
+                zonesData.forEach(zone => {
+                    if (!zone || zone.id == null) return;
+                    const compositeId = makeCompositeZoneId(zone.id, sourceIndex);
+                    zoneList.push({
+                        ...zone,
+                        id: compositeId,
+                        sourceId: sourceIndex + 1,
+                        originalId: String(zone.id).trim()
+                    });
+                });
+            } catch (error) {
+                continue;
+            }
+        }
+        state.games = zoneList;
+        if (!state.games.length) {
+            throw new Error('No zones could be loaded from the configured sources.');
+        }
         
         try {
             const tagZonesRes = await fetch(CONFIG.tagsZones + "?t=" + Date.now());
-            state.tagGames = await tagZonesRes.json();
+            const tagGamesData = await tagZonesRes.json();
+            state.tagGames = normalizeTagGamesToCompositeIds(tagGamesData);
         } catch(e) {
             state.tagGames = state.games;
         }
         
-        state.games[0].featured = false;
+        applyCustomZones();
+        if (state.games[0]) {
+            state.games[0].featured = false;
+        }
         extractCategories();
         renderApp();
+        enableHorizontalWheelScroll();
+        maybeShowMandatoryEducationTip();
         const search = new URLSearchParams(window.location.search);
         const id = search.get('id');
         if (id) {
@@ -2257,13 +2574,13 @@ function updateTrendingWeek() {
     const trendingWeek = [...state.games]
         .sort((a,b) => getScore(b, 'week') - getScore(a, 'week'))
         .slice(0, 15);
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favorites = getFavoriteIds();
     const el = document.getElementById('trendingWrapper');
     if (el) {
         el.innerHTML = trendingWeek.map(g => `
             <div class="swiper-slide">
-                <div class="game-card" onclick="event.stopPropagation(); openGame(${g.id})">
-                    <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick="event.stopPropagation(); toggleFavorite(${g.id})">★</div>
+                <div class="game-card" onclick='event.stopPropagation(); openGame(${JSON.stringify(g.id)})'>
+                    <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick='event.stopPropagation(); toggleFavorite(${JSON.stringify(g.id)})'>★</div>
                     <img src="${resolveUrl(g.cover)}" class="card-thumb" loading="lazy">
                     <div class="card-body">
                         <div class="card-title">${g.name}</div>
@@ -2280,7 +2597,7 @@ function updateTrendingWeek() {
 }
 function updateTagSections() {
     const tagCount = state.tagCount || 0;
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favorites = getFavoriteIds();
     
     for (let i = 0; i < tagCount; i++) {
         const wrapperEl = document.getElementById(`tagWrapper${i}`);
@@ -2289,9 +2606,9 @@ function updateTagSections() {
             slides.forEach(slide => {
                 const card = slide.querySelector('.game-card');
                 if (card) {
-                    const match = card.getAttribute('onclick').match(/openGame\((\d+)\)/);
+                    const match = card.getAttribute('onclick').match(/openGame\((?:'|")?(.+?)(?:'|")?\)/);
                     if (match) {
-                        const gameId = parseInt(match[1]);
+                        const gameId = match[1];
                         const game = state.games.find(g => g.id === gameId);
                         if (game) {
                             const statRow = slide.querySelector('.stat-row');
@@ -2312,7 +2629,7 @@ function updatePlayCounts() {
     document.querySelectorAll('.stat-row').forEach(async el => {
         const card = el.closest('[onclick^="openGame"]');
         if (card) {
-            const match = card.getAttribute('onclick').match(/openGame\((\d+)\)/);
+            const match = card.getAttribute('onclick').match(/openGame\((?:'|")?(.+?)(?:'|")?\)/);
             if (match) {
                 const id = match[1];
                 const plays = await getStats(id);
@@ -2334,7 +2651,8 @@ function extractCategories() {
     state.categories = Array.from(catSet).sort();
 }
 function getScore(game, period) {
-    return state.hits[period]?.[game.id] || 0;
+    const id = game.id;
+    return state.hits[period]?.[id] ?? state.hits[period]?.[Number(id)] ?? 0;
 }
 function formatPlays(num) {
     if (num >= 1000000) {
@@ -2345,7 +2663,53 @@ function formatPlays(num) {
     return num.toString();
 }
 function resolveUrl(u) {
-    return u.replace("{COVER_URL}", CONFIG.covers).replace("{HTML_URL}", CONFIG.html);
+    const sourceConfig = getSourceConfig();
+    let url = String(u || '');
+    if (url.includes('{COVER_URL}')) {
+        url = url.replace(/\{COVER_URL\}/g, sourceConfig.covers[0] || CONFIG.covers);
+    }
+    if (url.includes('{HTML_URL}')) {
+        url = url.replace(/\{HTML_URL\}/g, sourceConfig.html[0] || CONFIG.html);
+    }
+    return url;
+}
+function buildUrlCandidates(u) {
+    const sourceConfig = getSourceConfig();
+    const coverUrl = sourceConfig.covers[0] || CONFIG.covers;
+    const htmlUrls = sourceConfig.html.length ? sourceConfig.html : [CONFIG.html];
+    const url = String(u || '');
+    if (url.includes('{HTML_URL}')) {
+        return htmlUrls.map(htmlSource => url.replace(/\{HTML_URL\}/g, htmlSource).replace(/\{COVER_URL\}/g, coverUrl));
+    }
+    if (url.includes('{COVER_URL}')) {
+        return [url.replace(/\{COVER_URL\}/g, coverUrl)];
+    }
+    return [url];
+}
+async function fetchWithFallback(u) {
+    const candidates = buildUrlCandidates(u);
+    let lastError = null;
+    for (const candidate of candidates) {
+        try {
+            const separator = candidate.includes('?') ? '&' : '?';
+            const response = await fetch(candidate + separator + "t=" + Date.now());
+            if (!response.ok) {
+                lastError = new Error(`Fetch failed ${candidate} status=${response.status}`);
+                continue;
+            }
+            const text = await response.text();
+            if (text.trim().startsWith("Couldn't find the requested file")) {
+                lastError = new Error(`Fetch returned missing-file marker for ${candidate}`);
+                continue;
+            }
+            const blob = new Blob([text], { type: 'text/html' });
+            const newResponse = new Response(blob, { status: response.status, statusText: response.statusText });
+            return newResponse;
+        } catch (error) {
+            lastError = error;
+        }
+    }
+    throw lastError || new Error('FetchWithFallback failed');
 }
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
@@ -2391,11 +2755,11 @@ function renderTagSections() {
         ).slice(0, 15);
         if (tagGames.length > 0) {
             const wrapperEl = document.getElementById(`tagWrapper${index}`);
-            const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            const favorites = getFavoriteIds();
             wrapperEl.innerHTML = tagGames.map(g => `
                 <div class="swiper-slide">
-                    <div class="game-card" onclick="event.stopPropagation(); openGame(${g.id})">
-                        <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick="event.stopPropagation(); toggleFavorite(${g.id})">★</div>
+                    <div class="game-card" onclick='event.stopPropagation(); openGame(${JSON.stringify(g.id)})'>
+                        <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick='event.stopPropagation(); toggleFavorite(${JSON.stringify(g.id)})'>★</div>
                         <img src="${resolveUrl(g.cover)}" class="card-thumb" loading="lazy">
                         <div class="card-body">
                             <div class="card-title">${g.name}</div>
@@ -2479,11 +2843,11 @@ function filterFavorites() {
     c.classList.add('hidden');
     s.classList.remove('hidden');
     document.getElementById('searchBar').value = "";
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favorites = getFavoriteIds();
     const hits = state.games.filter(g => favorites.includes(g.id));
     document.getElementById('searchResults').innerHTML = hits.map(g => `
-        <div class="game-card" onclick="openGame(${g.id})">
-            <div class="star-icon starred" onclick="event.stopPropagation(); toggleFavorite(${g.id})">★</div>
+        <div class="game-card" onclick='openGame(${JSON.stringify(g.id)})'>
+            <div class="star-icon starred" onclick='event.stopPropagation(); toggleFavorite(${JSON.stringify(g.id)})'>★</div>
             <img src="${resolveUrl(g.cover)}" class="card-thumb" loading="lazy">
             <div class="card-body">
                 <div class="card-title">${g.name}</div>
@@ -2494,8 +2858,8 @@ function filterFavorites() {
 }
 function toggleFavorite(id) {
     markFeatureUsed('favorites');
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const index = favorites.indexOf(id);
+    const favorites = getFavoriteIds();
+    const index = favorites.indexOf(String(id));
     const star = event.target;
     
     if (index > -1) {
@@ -2535,7 +2899,7 @@ function renderHero(games) {
                         ${(g.special || ['Popular']).map(t => `<span class="tag-badge">${toTitleCase(t)}</span>`).join('')}
                     </div>
                     ${g.author ? `<p style="color:var(--text-muted); line-height:1.6; font-size:0.9rem;">by ${g.author}</p>` : ''}
-                    <button class="hero-btn" onclick="event.stopPropagation(); openGame(${g.id})">
+                    <button class="hero-btn" onclick='event.stopPropagation(); openGame(${JSON.stringify(g.id)})'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                         Play Now
                     </button>
@@ -2548,7 +2912,7 @@ function renderSwiper(id, games) {
     const el = document.getElementById(id);
     el.innerHTML = games.map(g => `
         <div class="swiper-slide">
-            <div class="game-card" onclick="event.stopPropagation(); openGame(${g.id})">
+            <div class="game-card" onclick='event.stopPropagation(); openGame(${JSON.stringify(g.id)})'>
                 <img src="${resolveUrl(g.cover)}" class="card-thumb" loading="lazy">
                 <div class="card-body">
                     <div class="card-title">${g.name}</div>
@@ -2565,13 +2929,13 @@ function renderSwiper(id, games) {
 }
 function renderGrid(id, games) {
     const el = document.getElementById(id);
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favorites = getFavoriteIds();
     
     el.innerHTML = games.map((g, index) => {
         const delay = Math.min(index, 20) * 0.03;
         return `
-        <div class="game-card" onclick="openGame(${g.id})" style="animation-delay: ${delay}s" data-index="${index}">
-            <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick="event.stopPropagation(); toggleFavorite(${g.id})">★</div>
+        <div class="game-card" onclick='openGame(${JSON.stringify(g.id)})' style="animation-delay: ${delay}s" data-index="${index}">
+            <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick='event.stopPropagation(); toggleFavorite(${JSON.stringify(g.id)})'>★</div>
             <img src="${resolveUrl(g.cover)}" class="card-thumb" loading="lazy">
             <div class="card-body">
                 <div class="card-title">${g.name}</div>
@@ -2615,14 +2979,15 @@ function sortZones() {
     localStorage.setItem('sortPreference', sortBy);
     
     let sortedGames = [...state.games];
-    
-    const pinnedGames = sortedGames.filter(g => g.id === -1 || g.id === 596);
-    const regularGames = sortedGames.filter(g => g.id !== -1 && g.id !== 596 && g.id !== 0 && g.id !== 1);
+    const pinnedIds = new Set(['-1', '596']);
+    const excludedFromRegular = new Set(['-1', '596', '0', '1']);
+    const pinnedGames = sortedGames.filter(g => pinnedIds.has(String(g.id)));
+    const regularGames = sortedGames.filter(g => !excludedFromRegular.has(String(g.id)));
     
     if (sortBy === 'name') {
         regularGames.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === 'id') {
-        regularGames.sort((a, b) => b.id - a.id);
+        regularGames.sort((a, b) => compareZoneIds(b.id, a.id));
     } else if (sortBy === 'popular') {
         regularGames.sort((a, b) => getScore(b, 'year') - getScore(a, 'year'));
     }
@@ -2633,7 +2998,7 @@ function sortZones() {
 function renderClassicGrid() {
     const el = document.getElementById('classicGrid');
     el.innerHTML = state.games.map(g => `
-        <div class="classic-card" onclick="openGame(${g.id})">
+        <div class="classic-card" onclick='openGame(${JSON.stringify(g.id)})'>
             <img src="${resolveUrl(g.cover)}" class="classic-thumb" loading="lazy">
             <div class="classic-info">
                 <div class="classic-title">${g.name}</div>
@@ -2739,11 +3104,11 @@ function handleSearch(q) {
     m.classList.add('hidden');
     c.classList.add('hidden');
     s.classList.remove('hidden');
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favorites = getFavoriteIds();
     const hits = state.games.filter(g => g.name.toLowerCase().includes(q.toLowerCase()));
     r.innerHTML = hits.map(g => `
-        <div class="game-card" onclick="openGame(${g.id})">
-            <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick="event.stopPropagation(); toggleFavorite(${g.id})">★</div>
+        <div class="game-card" onclick='openGame(${JSON.stringify(g.id)})'>
+            <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick='event.stopPropagation(); toggleFavorite(${JSON.stringify(g.id)})'>★</div>
             <img src="${resolveUrl(g.cover)}" class="card-thumb" loading="lazy">
             <div class="card-body">
                 <div class="card-title">${g.name}</div>
@@ -2768,11 +3133,11 @@ function filterByCategory(cat) {
     c.classList.add('hidden');
     s.classList.remove('hidden');
     document.getElementById('searchBar').value = "";
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favorites = getFavoriteIds();
     const hits = state.games.filter(g => g.special && g.special.includes(cat));
     document.getElementById('searchResults').innerHTML = hits.map(g => `
-        <div class="game-card" onclick="openGame(${g.id})">
-            <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick="event.stopPropagation(); toggleFavorite(${g.id})">★</div>
+        <div class="game-card" onclick='openGame(${JSON.stringify(g.id)})'>
+            <div class="star-icon ${favorites.includes(g.id) ? 'starred' : ''}" onclick='event.stopPropagation(); toggleFavorite(${JSON.stringify(g.id)})'>★</div>
             <img src="${resolveUrl(g.cover)}" class="card-thumb" loading="lazy">
             <div class="card-body">
                 <div class="card-title">${g.name}</div>
@@ -2806,24 +3171,29 @@ async function openGame(id) {
     const url = new URL(window.location);
     url.searchParams.set('id', id);
     history.pushState(null, '', url.toString());
-    if (g.url.startsWith('http') && !g.url.includes('{')) {
-        window.open(g.url, '_blank');
+    const hasIframePrefix = typeof g.url === 'string' && g.url.startsWith('iframe:');
+    const rawZoneUrl = hasIframePrefix ? g.url.slice(7) : g.url;
+    const isHttpUrl = typeof rawZoneUrl === 'string' && rawZoneUrl.startsWith('http') && !rawZoneUrl.includes('{');
+    const isLocalOverride = Number(g.sourceId) === 0;
+    const openInIframeUi = Boolean(g.iframe) || hasIframePrefix || (isLocalOverride && isHttpUrl);
+    if (!openInIframeUi && isHttpUrl) {
+        window.open(rawZoneUrl, '_blank');
         closeZone();
         return;
     }
     try {
-        const u = resolveUrl(g.url);
-        const r = await fetch(u + "?t=" + Date.now());
-        let h = await r.text();
-	if (h.trim().startsWith("Couldn't find the requested file")) {
-            const r2 = await fetch(g.url.replace("{COVER_URL}", CONFIG.covers).replace("{HTML_URL}", "https://cdn.jsdelivr.net/gh/freebuisness/html@main") + "?t=" + Date.now());
-            h = await r2.text();
+        if (openInIframeUi && isHttpUrl) {
+            f.removeAttribute('srcdoc');
+            f.src = rawZoneUrl;
+        } else {
+            const r = await fetchWithFallback(rawZoneUrl);
+            let h = await r.text();
+            f.src = 'about:blank';
+            f.srcdoc = h;
+            attachZoneFrameHotkeys();
         }
-        f.contentDocument.open();
-        f.contentDocument.write(h);
-        f.contentDocument.close();
-        attachZoneFrameHotkeys();
     } catch(e) {
+        console.error('openGame failed', { id, rawZoneUrl, error: e });
         alert("Load failed");
         closeZone();
     }
@@ -2842,7 +3212,9 @@ function closeZone() {
     }
     zoneViewer.classList.remove('is-fullscreen-zone', 'show-zone-header', 'hide-zone-header');
     document.getElementById('zoneViewer').style.display = 'none';
-    document.getElementById('zoneFrame').src = '';
+    const zoneFrame = document.getElementById('zoneFrame');
+    zoneFrame.removeAttribute('srcdoc');
+    zoneFrame.src = 'about:blank';
     document.querySelector('header').style.display = 'block';
     document.querySelector('main').style.display = 'block';
     document.querySelector('footer').style.display = 'block';
@@ -2853,7 +3225,11 @@ function closeZone() {
 function fullscreenZone() {
     markFeatureUsed('fullscreen');
     const viewer = document.getElementById('zoneViewer');
-    if (viewer.requestFullscreen) {
+    if (document.fullscreenElement === viewer && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+        return;
+    }
+    if (!document.fullscreenElement && viewer.requestFullscreen) {
         viewer.requestFullscreen().catch(() => {});
     }
 }
@@ -2914,31 +3290,30 @@ function aboutBlank() {
     const g = state.games.find(x => x.id == id);
     if (!g) return;
     const w = window.open('about:blank', '_blank');
-    const u = resolveUrl(g.url);
-    fetch(u).then(r=>r.text()).then(h => {
-	if (h.trim().startsWith("Couldn't find the requested file")) {
-            fetch(g.url.replace("{COVER_URL}", CONFIG.covers).replace("{HTML_URL}", "https://cdn.jsdelivr.net/gh/freebuisness/html@main") + "?t=" + Date.now()).then(r=>r.text()).then(hh => {
-                w.document.open();
-                w.document.write(hh);
-                w.document.close();
-            });
-	} else {
-            w.document.open();
-            w.document.write(h);
-            w.document.close();
-	}
+    const rawZoneUrl = g.iframe || g.url.startsWith('iframe:') ? (g.url.startsWith('iframe:') ? g.url.slice(7) : g.url) : g.url;
+    fetchWithFallback(rawZoneUrl).then(async r => {
+        const h = await r.text();
+        w.document.open();
+        w.document.write(h);
+        w.document.close();
+    }).catch(() => {
+        w.document.close();
+        w.document.write('<p>Failed to load zone.</p>');
     });
 }
 function downloadZone() {
     const id = document.getElementById('zoneId').textContent;
     const g = state.games.find(x => x.id == id);
-    const u = resolveUrl(g.url);
-    fetch(u).then(r=>r.text()).then(t => {
+    const rawZoneUrl = g.iframe || g.url.startsWith('iframe:') ? (g.url.startsWith('iframe:') ? g.url.slice(7) : g.url) : g.url;
+    fetchWithFallback(rawZoneUrl).then(async r => {
+        const t = await r.text();
         const b = new Blob([t], {type: "text/html"});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(b);
         a.download = g.name + ".html";
         a.click();
+    }).catch(() => {
+        alert('Failed to download zone.');
     });
 }
 function openModal(t, c) {
@@ -3117,6 +3492,7 @@ function openSettings() {
             <button class="settings-button" onclick="tabCloak()">Configure</button>
         </div>
         ${getPanicSettingsMarkup({ compact: false })}
+        ${getSourceSettingsMarkup({ compact: false })}
         <div style="margin-top: 1.5rem;">
             <h3 class="settings-group-title">Additional Settings</h3>
             ${getSpeedSettingsMarkup({ includePerformanceMode: true, compact: true, highlighted: true })}
