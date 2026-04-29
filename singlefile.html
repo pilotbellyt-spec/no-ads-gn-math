@@ -529,9 +529,10 @@ main {
     box-shadow: 0 12px 30px rgba(252, 38, 81, 0.35);
 }
 .game-card {
-    background: color-mix(in srgb, var(--bg-card) 72%, transparent);
+    background: color-mix(in srgb, var(--bg-card) 48%, transparent);
     border-radius: var(--radius-md);
     position: relative;
+    overflow: hidden;
     transition: var(--transition);
     border: 1px solid color-mix(in srgb, var(--border) 75%, rgba(255, 255, 255, 0.28));
     cursor: pointer;
@@ -541,6 +542,21 @@ main {
     animation: fadeInCard 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     backdrop-filter: blur(14px);
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+.game-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    background:
+        radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--primary) 38%, transparent) 0%, transparent 48%),
+        radial-gradient(circle at 84% 82%, color-mix(in srgb, var(--primary) 24%, transparent) 0%, transparent 52%);
+    box-shadow:
+        inset 0 0 24px color-mix(in srgb, var(--primary) 26%, transparent),
+        inset 0 0 1px color-mix(in srgb, var(--primary) 48%, transparent);
 }
 @keyframes fadeInCard {
     from {
@@ -559,6 +575,13 @@ main {
     z-index: 10;
     filter: drop-shadow(0 0 15px var(--card-glow-strong))
             drop-shadow(0 0 25px var(--card-glow-soft));
+}
+.game-card:hover::before,
+.game-card.is-zone-selecting::before {
+    opacity: 1;
+}
+.game-card.is-zone-selecting {
+    filter: blur(2.4px) saturate(0.85);
 }
 .card-thumb {
     width: 100%;
@@ -3147,6 +3170,13 @@ function filterByCategory(cat) {
     `).join('');
 }
 async function openGame(id) {
+    const clickedCard = (window.event && window.event.target && window.event.target.closest)
+        ? window.event.target.closest('.game-card')
+        : null;
+    if (clickedCard) {
+        clickedCard.classList.add('is-zone-selecting');
+        await new Promise(resolve => setTimeout(resolve, 140));
+    }
     const g = state.games.find(x => x.id === id);
     if (!g) return;
     const stats = JSON.parse(localStorage.getItem('userStats') || '{"opens": {}, "timeStart": null}');
@@ -3164,6 +3194,9 @@ async function openGame(id) {
     const v = document.getElementById('zoneViewer');
     const f = document.getElementById('zoneFrame');
     const header = document.querySelector('header');
+    if (clickedCard) {
+        clickedCard.classList.remove('is-zone-selecting');
+    }
     v.style.display = 'flex';
     header.style.display = 'none';
     document.querySelector('main').style.display = 'none';
